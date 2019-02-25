@@ -21,19 +21,19 @@
     The original values, [0.0822, -0.00773, 0.3872] however, seem to
     assume NWU (otherwise cob is below cog?).
     -->
-    <xacro:property name="cob" value="0.0 0.0 0.3"/>
+    <xacro:property name="cob" value="0.0 0.0 0.05"/>
 
     <!-- Volume, see p.31 in Berg2012 -->
     <xacro:property name="volume" value="1.83826"/>
 
     <xacro:macro name="rexrov_hydro_model" params="namespace">
         <link name="${namespace}/base_link">
-            <neutrally_buoyant>0</neutrally_buoyant>
+            <neutrally_buoyant>1</neutrally_buoyant>
             <volume>${volume}</volume>
             <box>
-                <width>1.5</width>
-                <length>2.6</length>
-                <height>1.6</height>
+                <width>0.5</width>
+                <length>1.0</length>
+                <height>0.4</height>
             </box>
             <center_of_buoyancy>${cob}</center_of_buoyancy>
             <hydrodynamic_model>
