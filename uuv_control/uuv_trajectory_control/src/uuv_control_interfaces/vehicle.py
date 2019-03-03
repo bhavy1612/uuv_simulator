@@ -104,7 +104,7 @@ class Vehicle(object):
                 raise rospy.ROSException('Invalid center of gravity vector')
 
         self._cob = [0, 0, 0]
-        if rospy.has_param('~cog'):
+        if rospy.has_param('~cob'):
             self._cob = rospy.get_param('~cob')
             if len(self._cob) != 3:
                 raise rospy.ROSException('Invalid center of buoyancy vector')
