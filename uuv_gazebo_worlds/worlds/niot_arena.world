@@ -30,16 +30,26 @@
       </fog>
     </scene>
 
+    <!-- Global light source -->
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose frame=''>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>0.5 0.1 -0.9</direction>
+    </light>
+
     <!-- Origin placed somewhere in the middle of the North Sea  -->
     <spherical_coordinates>
       <latitude_deg>56.71897669633431</latitude_deg>
       <longitude_deg>3.515625</longitude_deg>
     </spherical_coordinates>
-
-    <!-- Global light source -->
-    <include>
-      <uri>model://sun</uri>
-    </include>
 
     <!-- Bounding box with sea surface -->
     <include>

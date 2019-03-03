@@ -146,7 +146,6 @@ void DVLROSPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 /////////////////////////////////////////////////
 bool DVLROSPlugin::OnUpdate(const common::UpdateInfo& _info)
 {
-  std::cout << "ON UPDATE" << std::endl;
   // Publish sensor state
   this->PublishState();
 
