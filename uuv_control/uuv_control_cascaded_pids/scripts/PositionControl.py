@@ -42,7 +42,7 @@ class PositionControllerNode:
         self.pid_pos = PIDRegulator(1, 0, 0, 1)
 
         # ROS infrastructure
-        self.sub_cmd_pose = rospy.Subscriber('cmd_pose', numpy_msg(geometry_msgs.PoseStamped), self.cmd_pose_callback)
+        self.sub_cmd_pose = rospy.Subscriber('cmd_pose', numpy_msg(geometry_msgs.Pose), self.cmd_pose_callback)
         self.sub_odometry = rospy.Subscriber('odom', numpy_msg(Odometry), self.odometry_callback)
         self.pub_cmd_vel = rospy.Publisher('cmd_vel', geometry_msgs.Twist, queue_size=10)
         self.srv_reconfigure = Server(PositionControlConfig, self.config_callback)
@@ -50,13 +50,14 @@ class PositionControllerNode:
     def cmd_pose_callback(self, msg):
         """Handle updated set pose callback."""
         # Just store the desired pose. The actual control runs on odometry callbacks
-        p = msg.pose.position
-        q = msg.pose.orientation
+        p = msg.position
+        q = msg.orientation
         self.pos_des = numpy.array([p.x, p.y, p.z])
         self.quat_des = numpy.array([q.x, q.y, q.z, q.w])
 
     def odometry_callback(self, msg):
         """Handle updated measured velocity callback."""
+        
         if not bool(self.config):
             return
 

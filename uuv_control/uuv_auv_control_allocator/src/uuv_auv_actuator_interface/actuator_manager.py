@@ -29,7 +29,6 @@ import yaml
 class ActuatorManager(object):
     MAX_FINS = 4
 
-
     def __init__(self):
         # Acquiring the namespace of the vehicle
         self.namespace = rospy.get_namespace().replace('/', '')

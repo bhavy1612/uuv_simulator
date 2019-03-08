@@ -171,11 +171,13 @@ class WPTrajectoryGenerator(object):
 
     def get_max_time(self):
         """Return maximum trajectory time."""
+        # print self.interpolator.duration
         return self.interpolator.max_time
 
     def set_duration(self, t):
         """Set a new maximum trajectory time."""
         if t > 0:
+            print "setting duration"
             self.interpolator.duration = t
             self.interpolator.s_step = self._t_step / self.interpolator.duration
             self._logger.info('New duration, max. relative time=%.2f s' % self.interpolator.duration)
@@ -222,6 +224,7 @@ class WPTrajectoryGenerator(object):
             self._last_t = t
             self._dt = 0.0
             if self.interpolator.start_time is None:
+                print "from update dt, start_time is None"
                 self.interpolator.start_time = t
             return False
         self._dt = t - self._last_t
@@ -236,7 +239,10 @@ class WPTrajectoryGenerator(object):
     def set_start_time(self, t):
         """Set a custom starting time to the interpolated trajectory."""
         assert t >= 0, 'Starting time must be positive'
+        # print "setting start time"
+        # print self.interpolator.start_time
         self.interpolator.start_time = t
+        # print self.interpolator.start_time
         self._logger.info('Setting new starting time, t=%.2f s' % t)
 
     def _motion_regression_1d(self, pnts, t):
@@ -320,7 +326,7 @@ class WPTrajectoryGenerator(object):
 
         return np.hstack((lin_vel, ang_vel[0:3])), np.hstack((lin_acc, ang_acc[0:3]))
 
-    def generate_pnt(self, t, pos, rot):
+    def generate_pnt(self, t, *args):
         """Return trajectory sample for the current parameter s."""
         cur_s = (t - self.interpolator.start_time) / (self.interpolator.max_time - self.interpolator.start_time)
         last_s = cur_s - self.interpolator.s_step
@@ -329,8 +335,8 @@ class WPTrajectoryGenerator(object):
         pnt = self.interpolator.generate_pnt(
             cur_s,
             cur_s * (self.interpolator.max_time - self.interpolator.start_time) + self.interpolator.start_time,
-            pos,
-            rot)
+            *args
+            )
 
         if self.get_interpolation_method() is not 'los':
             if self._use_finite_diff:
@@ -408,6 +414,7 @@ class WPTrajectoryGenerator(object):
                 self._logger.error('Error initializing the waypoint interpolator')
                 return None
             if self.interpolator.start_time is None:
+                print "start time if None"
                 self.set_start_time(t + (time.time() - tic))
             self.interpolator.s_step = self._t_step / (self.interpolator.max_time - self.interpolator.start_time)
             self.update_dt(t)

@@ -77,7 +77,7 @@ class PathGenerator(object):
 
     @property
     def max_time(self):
-        return self._duration + self._start_time
+        return self._start_time + self._duration
 
     @property
     def duration(self):

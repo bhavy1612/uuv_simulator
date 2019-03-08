@@ -18,6 +18,7 @@ import roslib
 import numpy as np
 import matplotlib.pyplot as plt
 import uuv_trajectory_generator
+import uuv_waypoints
 import time
 from geometry_msgs.msg import Point
 from mpl_toolkits.mplot3d import Axes3D
@@ -32,7 +33,7 @@ velocity and acceleration profile using a constant rate.
 def run_generator(waypoint_set, interp_method):
     # Initialize the trajectory generator
     gen = uuv_trajectory_generator.WPTrajectoryGenerator(full_dof=False)
-    gen.set_interp_method(interp_method)
+    gen.set_interpolation_method(interp_method)
     gen.init_waypoints(waypoint_set)
 
     dt = 0.05
@@ -41,6 +42,8 @@ def run_generator(waypoint_set, interp_method):
     avg_time = 0.0
 
     gen.set_start_time(0)
+    gen.set_duration(100)
+    
     for ti in np.arange(-2, gen.get_max_time(), dt):
         tic = time.clock()
         pnts.append(gen.interpolate(ti))
@@ -123,19 +126,19 @@ def run_generator(waypoint_set, interp_method):
 
 if __name__ == '__main__':
     # For a helical trajectory
-    wp_set = uuv_trajectory_generator.WaypointSet()
+    wp_set = uuv_waypoints.WaypointSet()
     # Add some waypoints at the beginning
-    wp_set.add_waypoint(uuv_trajectory_generator.Waypoint(-10, -12, -36, 0.5),
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(-10, -12, -36, 0.5),
                         add_to_beginning=True)
-    wp_set.add_waypoint(uuv_trajectory_generator.Waypoint(-13, -15, -44, 0.5),
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(-13, -15, -44, 0.5),
                         add_to_beginning=True)
-    wp_set.add_waypoint(uuv_trajectory_generator.Waypoint(-20, -24, -48, 0.5),
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(-20, -24, -48, 0.5),
                         add_to_beginning=True)
-    wp_set.add_waypoint(uuv_trajectory_generator.Waypoint(-10, 10, -5, 0.5))
-    wp_set.add_waypoint(uuv_trajectory_generator.Waypoint(-20, 20, -5, 0.5))
-    wp_set.add_waypoint(uuv_trajectory_generator.Waypoint(-30, 60, -50, 0.5))
-    wp_set.add_waypoint(uuv_trajectory_generator.Waypoint(-40, 70, -55, 0.5))
-    wp_set.add_waypoint(uuv_trajectory_generator.Waypoint(-40, 80, -30, 0.5))
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(-10, 10, -5, 0.5))
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(-20, 20, -5, 0.5))
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(-30, 60, -50, 0.5))
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(-40, 70, -55, 0.5))
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(-40, 80, -30, 0.5))
 
     run_generator(wp_set, 'cubic_interpolator')
     run_generator(wp_set, 'lipb_interpolator')
