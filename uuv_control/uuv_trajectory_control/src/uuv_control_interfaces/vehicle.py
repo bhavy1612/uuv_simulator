@@ -87,6 +87,8 @@ class Vehicle(object):
             self._mass = rospy.get_param('~mass')
             if self._mass <= 0:
                 raise rospy.ROSException('Mass has to be positive')
+        else:
+            self._mass = 862.87
 
         self._inertial = dict(ixx=0, iyy=0, izz=0, ixy=0, ixz=0, iyz=0)
         if rospy.has_param('~inertial'):
@@ -96,6 +98,13 @@ class Vehicle(object):
                 if key not in inertial:
                     raise rospy.ROSException('Invalid moments of inertia')
             self._inertial = inertial
+        else:
+            self._inertial['ixx'] = 243.39 
+            self._inertial['iyy'] = 367.20
+            self._inertial['izz'] = 319.23
+            self._inertial['ixy'] = 1.44
+            self._inertial['ixz'] = 33.41
+            self._inertial['iyz'] = 2.6
 
         self._cog = [0, 0, 0]
         if rospy.has_param('~cog'):
@@ -108,6 +117,8 @@ class Vehicle(object):
             self._cob = rospy.get_param('~cob')
             if len(self._cob) != 3:
                 raise rospy.ROSException('Invalid center of buoyancy vector')
+        else:
+            self._cob = [0, 0, 0.05]
 
         self._body_frame = 'base_link'
         if rospy.has_param('~base_link'):
@@ -118,6 +129,8 @@ class Vehicle(object):
             self._volume = rospy.get_param('~volume')
             if self._volume <= 0:
                 raise rospy.ROSException('Invalid volume')
+        else:
+            self._volume = 0.5
 
         # Fluid density
         self._density = 1028.0
@@ -127,9 +140,10 @@ class Vehicle(object):
                 raise rospy.ROSException('Invalid fluid density')
 
         # Bounding box
-        self._height = 0.0
-        self._length = 0.0
-        self._width = 0.0
+        self._height = 0.4
+        self._length = 1.0
+        self._width = 0.5
+
         if rospy.has_param('~height'):
             self._height = rospy.get_param('~height')
             if self._height <= 0:
@@ -161,7 +175,44 @@ class Vehicle(object):
             self._Ma = np.array(rospy.get_param('~Ma'))
             if self._Ma.shape != (6, 6):
                 raise rospy.ROSException('Invalid added mass matrix')
-
+        else:
+            self._Ma[0][0] = 779.79
+            self._Ma[0][1] = -6.8773
+            self._Ma[0][2] = -103.32
+            self._Ma[0][3] = 8.5426
+            self._Ma[0][4] = -165.54
+            self._Ma[0][5] = -7.8033
+            self._Ma[1][0] = -6.8773
+            self._Ma[1][1] = 1222
+            self._Ma[1][2] = 51.29
+            self._Ma[1][3] = 409.44
+            self._Ma[1][4] = -5.8488
+            self._Ma[1][5] = 62.726
+            self._Ma[2][0] = -103.32
+            self._Ma[2][1] = 51.29
+            self._Ma[2][2] = 3659.9
+            self._Ma[2][3] = 6.1112
+            self._Ma[2][4] = -386.42
+            self._Ma[2][5] = 10.774
+            self._Ma[3][0] = 8.5426
+            self._Ma[3][1] = 409.44
+            self._Ma[3][2] = 6.1112
+            self._Ma[3][3] = 534.9
+            self._Ma[3][4] = -10.027
+            self._Ma[3][5] = 21.019
+            self._Ma[4][0] = -165.54
+            self._Ma[4][1] = -5.8488
+            self._Ma[4][2] = -386.42
+            self._Ma[4][3] = -10.027
+            self._Ma[4][4] = 842.69
+            self._Ma[4][5] = -1.1162
+            self._Ma[5][0] = -7.8033
+            self._Ma[5][1] = 62.726
+            self._Ma[5][2] = 10.775
+            self._Ma[5][3] = 21.019
+            self._Ma[5][4] = -1.1162
+            self._Ma[5][5] = 224.32
+        
         # Sum rigid-body and added-mass matrices
         self._Mtotal = np.zeros(shape=(6, 6))
         self._calc_mass_matrix()
@@ -183,6 +234,13 @@ class Vehicle(object):
                 self._linear_damping = np.diag(self._linear_damping)
             if self._linear_damping.shape != (6, 6):
                 raise rospy.ROSException('Linear damping must be given as a 6x6 matrix or the diagonal coefficients')
+        else:
+            self._linear_damping[0][0] = -74.82 
+            self._linear_damping[1][1] = -69.48
+            self._linear_damping[2][2] = -728.4
+            self._linear_damping[3][3] = -268.8
+            self._linear_damping[4][4] = -309.77
+            self._linear_damping[5][5] = -105
 
         # Loading the nonlinear damping coefficients
         self._quad_damping = np.zeros(shape=(6,))
@@ -190,6 +248,13 @@ class Vehicle(object):
             self._quad_damping = np.array(rospy.get_param('~quad_damping'))
             if self._quad_damping.shape != (6,):
                 raise rospy.ROSException('Quadratic damping must be given defined with 6 coefficients')
+        else:
+            self._quad_damping[0] = -748.22
+            self._quad_damping[1] = -992.53
+            self._quad_damping[2] = -1821.01
+            self._quad_damping[3] = -672
+            self._quad_damping[4] = -774.44
+            self._quad_damping[5] = -523.27
 
         # Loading the linear damping coefficients proportional to the forward speed
         self._linear_damping_forward_speed = np.zeros(shape=(6, 6))
