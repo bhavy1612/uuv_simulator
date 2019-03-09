@@ -10,16 +10,17 @@
   <arg name="namespace" default="anahita"/>
   <arg name="x" default="0"/>
   <arg name="y" default="0"/>
-  <arg name="z" default="-85"/>
+  <arg name="z" default="-2"/>
   <arg name="yaw" default="0.0"/>
   <arg name="joy_id" default="0"/>
   <arg name="axis_yaw" default="0"/>
   <arg name="axis_x" default="4"/>
   <arg name="axis_y" default="3"/>
   <arg name="axis_z" default="1"/>
+  <arg name="launch_rviz" default="1"/>
 
-  <include file="$(find uuv_descriptions)/launch/upload_anahita_default.launch">
-    <arg name="mode" value="sonar"/>
+  <include file="$(find anahita_description)/launch/upload_anahita.launch">
+    <arg name="mode" value="default"/>
     <arg name="namespace" value="$(arg namespace)"/>
     <arg name="x" value="$(arg x)"/>
     <arg name="y" value="$(arg y)"/>
@@ -59,5 +60,7 @@
     <arg name="axis_z" value="$(arg axis_z)"/>
   </include>
 
-  <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find uuv_gazebo)/rviz/anahita_sonar.rviz"/>
+  <group if="$(arg launch_rviz)">
+    <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find uuv_gazebo)/rviz/anahita_default.rviz"/>
+  </group>
 </launch>

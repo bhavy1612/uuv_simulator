@@ -61,11 +61,7 @@ Visualization Manager:
           Value: true
         anahita/ned_link:
           Value: true
-        anahita/pose_sensor_link:
-          Value: true
         anahita/pressure_link:
-          Value: true
-        anahita/rpt_link:
           Value: true
         anahita/thruster_0:
           Value: true
@@ -110,11 +106,7 @@ Visualization Manager:
                   {}
                 anahita/ned_link:
                   {}
-                anahita/pose_sensor_link:
-                  {}
                 anahita/pressure_link:
-                  {}
-                anahita/rpt_link:
                   {}
                 anahita/thruster_0:
                   {}
@@ -154,7 +146,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /anahita/anahita/camera/camera_image
+      Image Topic: /anahita/anahita/camerafront/camera_image
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -219,17 +211,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        anahita/pose_sensor_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         anahita/pressure_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        anahita/rpt_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
