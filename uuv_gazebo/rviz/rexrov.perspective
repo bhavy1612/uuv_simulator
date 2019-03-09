@@ -59,7 +59,7 @@
                 }, 
                 "topic": {
                   "type": "repr", 
-                  "repr": "u'/rexrov_1/rexrov_1/camera/camera_image'"
+                  "repr": "u'/anahita_1/anahita_1/camera/camera_image'"
                 }, 
                 "zoom1": {
                   "type": "repr", 
@@ -116,7 +116,7 @@
                 }, 
                 "topics": {
                   "type": "repr", 
-                  "repr": "[u'/rexrov_1/thrusters/5/thrust/data', u'/rexrov_1/thrusters/6/thrust/data', u'/rexrov_1/thrusters/3/thrust/data', u'/rexrov_1/thrusters/2/thrust/data', u'/rexrov_1/thrusters/0/thrust/data', u'/rexrov_1/thrusters/7/thrust/data', u'/rexrov_1/thrusters/4/thrust/data', u'/rexrov_1/thrusters/1/thrust/data']"
+                  "repr": "[u'/anahita_1/thrusters/5/thrust/data', u'/anahita_1/thrusters/6/thrust/data', u'/anahita_1/thrusters/3/thrust/data', u'/anahita_1/thrusters/2/thrust/data', u'/anahita_1/thrusters/0/thrust/data', u'/anahita_1/thrusters/7/thrust/data', u'/anahita_1/thrusters/4/thrust/data', u'/anahita_1/thrusters/1/thrust/data']"
                 }, 
                 "y_limits": {
                   "type": "repr", 
@@ -159,7 +159,7 @@
                 }, 
                 "topics": {
                   "type": "repr", 
-                  "repr": "[u'/rexrov_2/thrusters/0/thrust/data', u'/rexrov_2/thrusters/2/thrust/data', u'/rexrov_2/thrusters/1/thrust/data']"
+                  "repr": "[u'/anahita_2/thrusters/0/thrust/data', u'/anahita_2/thrusters/2/thrust/data', u'/anahita_2/thrusters/1/thrust/data']"
                 }, 
                 "y_limits": {
                   "type": "repr", 
@@ -206,7 +206,7 @@
                 }, 
                 "topic": {
                   "type": "repr", 
-                  "repr": "u'/rexrov_2/rexrov_2/camera/camera_image'"
+                  "repr": "u'/anahita_2/anahita_2/camera/camera_image'"
                 }, 
                 "zoom1": {
                   "type": "repr", 

@@ -4,7 +4,7 @@
 
     <include file="$(find uuv_gazebo_worlds)/launch/ocean_waves.launch"/>
 
-    <include file="$(find uuv_descriptions)/launch/upload_rexrov.launch">
+    <include file="$(find anahita_description)/launch/upload_anahita.launch">
         <arg name="x" default="30"/>
         <arg name="y" default="0"/>
         <arg name="z" default="-20"/>
@@ -13,8 +13,8 @@
     </include>
 
     <include file="$(find uuv_trajectory_control)/launch/rov_mb_sm_controller.launch">
-        <arg name="uuv_name" value="rexrov"/>
-        <arg name="model_name" value="rexrov"/>
+        <arg name="uuv_name" value="anahita"/>
+        <arg name="model_name" value="anahita"/>
         <arg name="use_ned_frame" value="$(arg use_ned_frame)"/>
     </include>
 

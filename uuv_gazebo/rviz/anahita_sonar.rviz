@@ -40,51 +40,51 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        rexrov/base_footprint:
+        anahita/base_footprint:
           Value: true
-        rexrov/base_link:
+        anahita/base_link:
           Value: true
-        rexrov/base_stabilized:
+        anahita/base_stabilized:
           Value: true
-        rexrov/camera_link:
+        anahita/camera_link:
           Value: true
-        rexrov/dvl_link:
+        anahita/dvl_link:
           Value: true
-        rexrov/dvl_sonar0_link:
+        anahita/dvl_sonar0_link:
           Value: true
-        rexrov/dvl_sonar1_link:
+        anahita/dvl_sonar1_link:
           Value: true
-        rexrov/dvl_sonar2_link:
+        anahita/dvl_sonar2_link:
           Value: true
-        rexrov/dvl_sonar3_link:
+        anahita/dvl_sonar3_link:
           Value: true
-        rexrov/imu_link:
+        anahita/imu_link:
           Value: true
-        rexrov/ned_link:
+        anahita/ned_link:
           Value: true
-        rexrov/pose_sensor_link:
+        anahita/pose_sensor_link:
           Value: true
-        rexrov/pressure_link:
+        anahita/pressure_link:
           Value: true
-        rexrov/rpt_link:
+        anahita/rpt_link:
           Value: true
-        rexrov/sonar_link:
+        anahita/sonar_link:
           Value: true
-        rexrov/thruster_0:
+        anahita/thruster_0:
           Value: true
-        rexrov/thruster_1:
+        anahita/thruster_1:
           Value: true
-        rexrov/thruster_2:
+        anahita/thruster_2:
           Value: true
-        rexrov/thruster_3:
+        anahita/thruster_3:
           Value: true
-        rexrov/thruster_4:
+        anahita/thruster_4:
           Value: true
-        rexrov/thruster_5:
+        anahita/thruster_5:
           Value: true
-        rexrov/thruster_6:
+        anahita/thruster_6:
           Value: true
-        rexrov/thruster_7:
+        anahita/thruster_7:
           Value: true
         world:
           Value: true
@@ -95,47 +95,47 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          rexrov/base_footprint:
-            rexrov/base_stabilized:
-              rexrov/base_link:
-                rexrov/camera_link:
+          anahita/base_footprint:
+            anahita/base_stabilized:
+              anahita/base_link:
+                anahita/camera_link:
                   {}
-                rexrov/dvl_link:
-                  rexrov/dvl_sonar0_link:
+                anahita/dvl_link:
+                  anahita/dvl_sonar0_link:
                     {}
-                  rexrov/dvl_sonar1_link:
+                  anahita/dvl_sonar1_link:
                     {}
-                  rexrov/dvl_sonar2_link:
+                  anahita/dvl_sonar2_link:
                     {}
-                  rexrov/dvl_sonar3_link:
+                  anahita/dvl_sonar3_link:
                     {}
-                rexrov/imu_link:
+                anahita/imu_link:
                   {}
-                rexrov/ned_link:
+                anahita/ned_link:
                   {}
-                rexrov/pose_sensor_link:
+                anahita/pose_sensor_link:
                   {}
-                rexrov/pressure_link:
+                anahita/pressure_link:
                   {}
-                rexrov/rpt_link:
+                anahita/rpt_link:
                   {}
-                rexrov/sonar_link:
+                anahita/sonar_link:
                   {}
-                rexrov/thruster_0:
+                anahita/thruster_0:
                   {}
-                rexrov/thruster_1:
+                anahita/thruster_1:
                   {}
-                rexrov/thruster_2:
+                anahita/thruster_2:
                   {}
-                rexrov/thruster_3:
+                anahita/thruster_3:
                   {}
-                rexrov/thruster_4:
+                anahita/thruster_4:
                   {}
-                rexrov/thruster_5:
+                anahita/thruster_5:
                   {}
-                rexrov/thruster_6:
+                anahita/thruster_6:
                   {}
-                rexrov/thruster_7:
+                anahita/thruster_7:
                   {}
       Update Interval: 0
       Value: true
@@ -159,7 +159,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /rexrov/rexrov/camera/camera_image
+      Image Topic: /anahita/anahita/camera/camera_image
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -179,113 +179,113 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        rexrov/base_link:
+        anahita/base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/camera_link:
+        anahita/camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/dvl_link:
+        anahita/dvl_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/dvl_sonar0_link:
+        anahita/dvl_sonar0_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/dvl_sonar1_link:
+        anahita/dvl_sonar1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/dvl_sonar2_link:
+        anahita/dvl_sonar2_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/dvl_sonar3_link:
+        anahita/dvl_sonar3_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/imu_link:
+        anahita/imu_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/ned_link:
+        anahita/ned_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/pose_sensor_link:
+        anahita/pose_sensor_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/pressure_link:
+        anahita/pressure_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/rpt_link:
+        anahita/rpt_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/sonar_link:
+        anahita/sonar_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/thruster_0:
+        anahita/thruster_0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/thruster_1:
+        anahita/thruster_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/thruster_2:
+        anahita/thruster_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/thruster_3:
+        anahita/thruster_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/thruster_4:
+        anahita/thruster_4:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/thruster_5:
+        anahita/thruster_5:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/thruster_6:
+        anahita/thruster_6:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rexrov/thruster_7:
+        anahita/thruster_7:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
       Name: RobotModel
-      Robot Description: /rexrov/robot_description
+      Robot Description: /anahita/robot_description
       TF Prefix: ""
       Update Interval: 0
       Value: true
@@ -298,7 +298,7 @@ Visualization Manager:
       Length: 1
       Name: Odometry
       Position Tolerance: 1
-      Topic: /rexrov/pose_gt
+      Topic: /anahita/pose_gt
       Value: true
     - Alpha: 0.5
       Buffer Length: 1
@@ -307,7 +307,7 @@ Visualization Manager:
       Enabled: true
       Name: DVL - Sonar 0
       Queue Size: 100
-      Topic: /rexrov/dvl_sonar0
+      Topic: /anahita/dvl_sonar0
       Unreliable: false
       Value: true
     - Alpha: 0.5
@@ -317,7 +317,7 @@ Visualization Manager:
       Enabled: true
       Name: DVL - Sonar 1
       Queue Size: 100
-      Topic: /rexrov/dvl_sonar1
+      Topic: /anahita/dvl_sonar1
       Unreliable: false
       Value: true
     - Alpha: 0.5
@@ -327,7 +327,7 @@ Visualization Manager:
       Enabled: true
       Name: DVL - Sonar 2
       Queue Size: 100
-      Topic: /rexrov/dvl_sonar2
+      Topic: /anahita/dvl_sonar2
       Unreliable: false
       Value: true
     - Alpha: 0.5
@@ -337,12 +337,12 @@ Visualization Manager:
       Enabled: true
       Name: DVL - Sonar 3
       Queue Size: 100
-      Topic: /rexrov/dvl_sonar3
+      Topic: /anahita/dvl_sonar3
       Unreliable: false
       Value: true
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /rexrov/current_velocity_marker
+      Marker Topic: /anahita/current_velocity_marker
       Name: Current Velocity Marker
       Namespaces:
         {}
@@ -373,7 +373,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.00999999978
       Style: Points
-      Topic: /rexrov/sonar
+      Topic: /anahita/sonar
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -417,7 +417,7 @@ Visualization Manager:
       Name: Current View
       Near Clip Distance: 0.00999999978
       Pitch: 0.405397952
-      Target Frame: rexrov/base_link
+      Target Frame: anahita/base_link
       Value: Orbit (rviz)
       Yaw: 2.49040103
     Saved: ~

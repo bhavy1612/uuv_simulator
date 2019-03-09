@@ -16,7 +16,7 @@
     <include file="$(find uuv_gazebo_worlds)/launch/ocean_waves.launch"/>
 
     <!-- Add the RexROV vehicle to the world  -->
-    <include file="$(find uuv_descriptions)/launch/upload_rexrov.launch">
+    <include file="$(find anahita_description)/launch/upload_anahita.launch">
         <arg name="x" default="20"/>
         <arg name="y" default="0"/>
         <arg name="z" default="-20"/>
@@ -26,8 +26,8 @@
 
     <!-- Start the model-free sliding mode controller with its default parameters for the RexROV vehicle  -->
     <include file="$(find uuv_trajectory_control)/launch/rov_nmb_sm_controller.launch">
-        <arg name="uuv_name" value="rexrov"/>
-        <arg name="model_name" value="rexrov"/>
+        <arg name="uuv_name" value="anahita"/>
+        <arg name="model_name" value="anahita"/>
         <arg name="use_ned_frame" value="$(arg use_ned_frame)"/>
     </include>
 
@@ -39,7 +39,7 @@
 
     <!-- Start joystick teleop node  -->
     <include file="$(find uuv_teleop)/launch/uuv_teleop.launch">
-        <arg name="uuv_name" value="rexrov"/>
+        <arg name="uuv_name" value="anahita"/>
         <arg name="joy_id" value="$(arg joy_id)"/>
         <arg name="output_topic" value="cmd_vel"/>
         <arg name="message_type" value="twist"/>
