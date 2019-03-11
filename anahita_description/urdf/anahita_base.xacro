@@ -37,7 +37,11 @@
   <xacro:property name="collision_mesh_file" value="file://$(find anahita_description)/meshes/vehicle.STL"/>
 
   <!-- Mass, see p.28 in Berg2012 -->
-  <xacro:property name="mass" value="862.87"/>
+  <xacro:property name="mass" value="35"/>
+  <xacro:property name="x_size" value="0.88"/>
+  <xacro:property name="y_size" value="0.40"/>
+  <xacro:property name="z_size" value="0.35"/>
+  <xacro:property name="equivalent_radius" value="${0.5*z_size}"/>
 
   <xacro:macro name="anahita_base" params="namespace *gazebo inertial_reference_frame">
     <!-- base_link according to ROS conventions: x forward, z up -->
@@ -45,7 +49,9 @@
       <inertial>
         <mass value="${mass}"/>
         <origin xyz="0 0 0"/>
-        <inertia ixx="243.39" ixy="1.44" ixz="33.41" iyy="367.20" iyz="2.6" izz="319.23"/>
+        <inertia ixx="${0.2*mass*y_size*y_size + 0.2*mass*z_size*z_size}" ixy="0.0" ixz="0.0"
+               iyy="${0.2*mass*x_size*x_size + 0.2*mass*z_size*z_size}" iyz="0.0"
+               izz="${0.2*mass*x_size*x_size + 0.2*mass*y_size*y_size}" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>

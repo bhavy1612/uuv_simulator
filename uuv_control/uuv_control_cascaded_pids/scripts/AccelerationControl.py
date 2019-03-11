@@ -125,41 +125,41 @@ class AccelerationControllerNode:
         force_msg.torque.y = force_torque[4]
         force_msg.torque.z = force_torque[5]
 
-        if (force_torque[0] > 1500):
-          force_msg.force.x = 1500
+        if (force_torque[0] > 500):
+          force_msg.force.x = 500
 
-        if (force_torque[0] < -1500):
-          force_msg.force.x = -1500
+        if (force_torque[0] < -500):
+          force_msg.force.x = -500
 
-        if (force_torque[1] > 1500):
-          force_msg.force.y = 1500
+        if (force_torque[1] > 500):
+          force_msg.force.y = 500
 
-        if (force_torque[1] < -1500):
-          force_msg.force.y = -1500
+        if (force_torque[1] < -500):
+          force_msg.force.y = -500
 
-        if (force_torque[2] > 1500):
-          force_msg.force.z = 1500
+        if (force_torque[2] > 500):
+          force_msg.force.z = 500
 
-        if (force_torque[2] < -1500):
-          force_msg.force.z = -1500
+        if (force_torque[2] < -500):
+          force_msg.force.z = -500
 
-        if (force_torque[3] > 1500):
-          force_msg.torque.x = 1500
+        if (force_torque[3] > 500):
+          force_msg.torque.x = 500
 
-        if (force_torque[3] < -1500):
-          force_msg.torque.x = -1500
+        if (force_torque[3] < -500):
+          force_msg.torque.x = -500
 
-        if (force_torque[4] > 1500):
-          force_msg.torque.y = 1500
+        if (force_torque[4] > 500):
+          force_msg.torque.y = 500
 
-        if (force_torque[4] < -1500):
-          force_msg.torque.y = -1500
+        if (force_torque[4] < -500):
+          force_msg.torque.y = -500
 
-        if (force_torque[5] > 1500):
-          force_msg.torque.z = 1500
+        if (force_torque[5] > 500):
+          force_msg.torque.z = 500
 
-        if (force_torque[5] < -1500):
-          force_msg.torque.z = -1500
+        if (force_torque[5] < -500):
+          force_msg.torque.z = -500
 
         self.pub_gen_force.publish(force_msg)
 
