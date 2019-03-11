@@ -176,42 +176,42 @@ class Vehicle(object):
             if self._Ma.shape != (6, 6):
                 raise rospy.ROSException('Invalid added mass matrix')
         else:
-            self._Ma[0][0] = 779.79
-            self._Ma[0][1] = -6.8773
-            self._Ma[0][2] = -103.32
-            self._Ma[0][3] = 8.5426
-            self._Ma[0][4] = -165.54
-            self._Ma[0][5] = -7.8033
-            self._Ma[1][0] = -6.8773
-            self._Ma[1][1] = 1222
-            self._Ma[1][2] = 51.29
-            self._Ma[1][3] = 409.44
-            self._Ma[1][4] = -5.8488
-            self._Ma[1][5] = 62.726
-            self._Ma[2][0] = -103.32
-            self._Ma[2][1] = 51.29
-            self._Ma[2][2] = 3659.9
-            self._Ma[2][3] = 6.1112
-            self._Ma[2][4] = -386.42
-            self._Ma[2][5] = 10.774
-            self._Ma[3][0] = 8.5426
-            self._Ma[3][1] = 409.44
-            self._Ma[3][2] = 6.1112
-            self._Ma[3][3] = 534.9
-            self._Ma[3][4] = -10.027
-            self._Ma[3][5] = 21.019
-            self._Ma[4][0] = -165.54
-            self._Ma[4][1] = -5.8488
-            self._Ma[4][2] = -386.42
-            self._Ma[4][3] = -10.027
-            self._Ma[4][4] = 842.69
+            self._Ma[0][0] = 379.79
+            self._Ma[0][1] = -3.8773
+            self._Ma[0][2] = -53.32
+            self._Ma[0][3] = 4.5426
+            self._Ma[0][4] = -85.54
+            self._Ma[0][5] = -3.8033
+            self._Ma[1][0] = -3.8773
+            self._Ma[1][1] = 622
+            self._Ma[1][2] = 25.29
+            self._Ma[1][3] = 209.44
+            self._Ma[1][4] = -2.8488
+            self._Ma[1][5] = 32.726
+            self._Ma[2][0] = -53.32
+            self._Ma[2][1] = 25.29
+            self._Ma[2][2] = 1959.9
+            self._Ma[2][3] = 3.1112
+            self._Ma[2][4] = -196.42
+            self._Ma[2][5] = 5.774
+            self._Ma[3][0] = 4.5426
+            self._Ma[3][1] = 209.44
+            self._Ma[3][2] = 3.1112
+            self._Ma[3][3] = 264.9
+            self._Ma[3][4] = -5.027
+            self._Ma[3][5] = 11.019
+            self._Ma[4][0] = -85.54
+            self._Ma[4][1] = -2.8488
+            self._Ma[4][2] = -196.42
+            self._Ma[4][3] = -5.027
+            self._Ma[4][4] = 442.69
             self._Ma[4][5] = -1.1162
-            self._Ma[5][0] = -7.8033
-            self._Ma[5][1] = 62.726
-            self._Ma[5][2] = 10.775
-            self._Ma[5][3] = 21.019
+            self._Ma[5][0] = -3.8033
+            self._Ma[5][1] = 32.726
+            self._Ma[5][2] = 5.775
+            self._Ma[5][3] = 11.019
             self._Ma[5][4] = -1.1162
-            self._Ma[5][5] = 224.32
+            self._Ma[5][5] = 114.32
         
         # Sum rigid-body and added-mass matrices
         self._Mtotal = np.zeros(shape=(6, 6))
@@ -235,12 +235,12 @@ class Vehicle(object):
             if self._linear_damping.shape != (6, 6):
                 raise rospy.ROSException('Linear damping must be given as a 6x6 matrix or the diagonal coefficients')
         else:
-            self._linear_damping[0][0] = -74.82 
-            self._linear_damping[1][1] = -69.48
-            self._linear_damping[2][2] = -728.4
-            self._linear_damping[3][3] = -268.8
-            self._linear_damping[4][4] = -309.77
-            self._linear_damping[5][5] = -105
+            self._linear_damping[0][0] = -34.82 
+            self._linear_damping[1][1] = -39.48
+            self._linear_damping[2][2] = -368.4
+            self._linear_damping[3][3] = -138.8
+            self._linear_damping[4][4] = -159.77
+            self._linear_damping[5][5] = -55
 
         # Loading the nonlinear damping coefficients
         self._quad_damping = np.zeros(shape=(6,))
@@ -249,12 +249,12 @@ class Vehicle(object):
             if self._quad_damping.shape != (6,):
                 raise rospy.ROSException('Quadratic damping must be given defined with 6 coefficients')
         else:
-            self._quad_damping[0] = -748.22
-            self._quad_damping[1] = -992.53
-            self._quad_damping[2] = -1821.01
-            self._quad_damping[3] = -672
-            self._quad_damping[4] = -774.44
-            self._quad_damping[5] = -523.27
+            self._quad_damping[0] = -378.22
+            self._quad_damping[1] = -502.53
+            self._quad_damping[2] = -921.01
+            self._quad_damping[3] = -342
+            self._quad_damping[4] = -394.44
+            self._quad_damping[5] = -263.27
 
         # Loading the linear damping coefficients proportional to the forward speed
         self._linear_damping_forward_speed = np.zeros(shape=(6, 6))
