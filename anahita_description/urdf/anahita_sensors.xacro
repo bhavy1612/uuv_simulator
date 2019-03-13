@@ -38,11 +38,11 @@
   </xacro:default_imu_macro>
 
   <!-- Stereo -->
-  <!-- <xacro:duo3d_camera
+  <xacro:duo3d_camera
     namespace="${namespace}"
     parent_link="${namespace}/base_link">
     <origin xyz="0.459063 -0.02119 -0.1124" rpy="0 0 0" />
-  </xacro:duo3d_camera> -->
+  </xacro:duo3d_camera>
 
   <!-- Front Camera -->
   <xacro:default_camera namespace="${namespace}" parent_link="${namespace}/base_link" suffix="front">
