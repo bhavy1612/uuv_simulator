@@ -112,8 +112,8 @@ class AccelerationControllerNode:
         self.acc_ = numpy.array((msg.linear.x, msg.linear.y, msg.linear.z, msg.angular.x, msg.angular.y, msg.angular.z))
 
         # convert acceleration to force / torque
-        force_torque = self.vehicle_model.compute_force(self.acc_, self.vel_)
-        # force_torque = self.mass_inertial_matrix.dot(accel)
+        # force_torque = self.vehicle_model.compute_force(self.acc_, self.vel_)
+        force_torque = self.mass_inertial_matrix.dot(accel)
 
         force_msg = Wrench()
 

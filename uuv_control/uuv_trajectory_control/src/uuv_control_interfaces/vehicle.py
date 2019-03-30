@@ -14,6 +14,7 @@
 # limitations under the License.
 
 import rospy
+import logging
 import numpy as np
 from nav_msgs.msg import Odometry
 from copy import deepcopy
@@ -50,6 +51,7 @@ class Vehicle(object):
         assert inertial_frame_id in ['world', 'world_ned']
         # Reading current namespace
         self._namespace = rospy.get_namespace()
+        self._logger = logging.getLogger('vehicle_model')
 
         self._inertial_frame_id = inertial_frame_id
         self._body_frame_id = None
