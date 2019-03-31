@@ -20,13 +20,6 @@
   <!-- The following controller parameters have been optimized for the RexROV
        vehicle using SMAC (https://github.com/automl/SMAC3)
   -->
-  <arg name="Kp" default="19987.218,19987.218,19987.218,19460.293,19460.293,19460.293"/>
-  <arg name="Kd" default="11458.051,11458.051,11458.051,17068.778,17068.778,17068.778"/>
-  <arg name="Ki" default="1689.976,1689.976,1689.976,186.198,186.198,186.198"/>
-
-  <arg name="controller_config_file" default="$(find uuv_trajectory_control)/config/controllers/pid/$(arg model_name)/params.yaml"/>
-
-  <arg name="model_params_file" default="$(find uuv_trajectory_control)/config/models/$(arg model_name)/params.yaml"/>
 
   <!--Thruster manager configuration  -->
   <arg name="thruster_manager_output_dir" default="$(find uuv_thruster_manager)/config/$(arg model_name)"/>
@@ -60,8 +53,8 @@
   <group if="$(arg use_params_file)">
     <group ns="$(arg uuv_name)">
       <node pkg="uuv_trajectory_control"
-            type="rov_mb_fl_controller.py"
-            name="rov_mb_fl_controller"
+            type="cascaded_pid_dp_controller.py"
+            name="cascaded_pid_dp_controller"
             output="screen"
             if="$(arg use_ned_frame)">
         <!-- Remap necessary topics -->
@@ -80,8 +73,8 @@
       </node>
 
       <node pkg="uuv_trajectory_control"
-            type="rov_mb_fl_controller.py"
-            name="rov_mb_fl_controller"
+            type="cascaded_pid_dp_controller.py"
+            name="cascaded_pid_dp_controller"
             output="screen"
             unless="$(arg use_ned_frame)">
         <!-- Remap necessary topics -->
@@ -104,8 +97,8 @@
   <group unless="$(arg use_params_file)">
     <group ns="$(arg uuv_name)">
       <node pkg="uuv_trajectory_control"
-            type="rov_mb_fl_controller.py"
-            name="rov_mb_fl_controller"
+            type="cascaded_pid_dp_controller.py"
+            name="cascaded_pid_dp_controller"
             output="screen"
             if="$(arg use_ned_frame)">
         <!-- Remap necessary topics -->
@@ -128,8 +121,8 @@
       </node>
 
       <node pkg="uuv_trajectory_control"
-            type="rov_mb_fl_controller.py"
-            name="rov_mb_fl_controller"
+            type="cascaded_pid_dp_controller.py"
+            name="cascaded_pid_dp_controller"
             output="screen"
             unless="$(arg use_ned_frame)">
         <!-- Remap necessary topics -->
