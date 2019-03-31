@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import rospy
 import numpy as np
 from uuv_control_interfaces import DPPIDControllerBase, DPControllerBase
@@ -17,8 +18,6 @@ class ROV_CascadedController(DPControllerBase):
 
         self._is_init = True
         self._logger.info(self._LABEL + ' ready')
-
-        self._logger.info('PID controller ready!')
 
         self._mass = rospy.get_param("pid/mass")
         self._inertial = rospy.get_param("pid/inertial")
@@ -40,6 +39,8 @@ class ROV_CascadedController(DPControllerBase):
 
         self._lin_pos_pid_reg = PIDRegulator(self._position_pid['pos_p'], self._position_pid['pos_i'], self._position_pid['pos_d'], self._position_pid['pos_sat'])
         self._ang_pos_pid_reg = PIDRegulator(self._position_pid['rot_p'], self._position_pid['rot_i'], self._position_pid['rot_d'], self._position_pid['rot_sat'])
+
+        self._logger.info('Cascaded PID controller ready!')
 
 
     def _reset_controller(self):
