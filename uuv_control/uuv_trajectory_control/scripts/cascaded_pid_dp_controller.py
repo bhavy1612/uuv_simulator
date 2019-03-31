@@ -21,6 +21,10 @@ class ROV_CascadedController(DPControllerBase):
 
         self._mass = rospy.get_param("pid/mass")
         self._inertial = rospy.get_param("pid/inertial")
+        self._use_cascaded_pid = rospy.get_param("use_cascaded_pid")
+
+        self._last_vel = np.zeros(6)
+        self._last_t = None
 
         # update mass, moments of inertia
         self._inertial_tensor = np.array(
@@ -51,6 +55,24 @@ class ROV_CascadedController(DPControllerBase):
         if not self._is_init:
             return False
 
+        t = rospy.get_time()
+        if self._last_t is None:
+            self._last_t = t
+            self._last_vel = self._vehicle_model._vel
+            return False
+
+        dt = t - self._last_t
+        if dt <= 0:
+            self._last_t = t
+            self._last_vel = self._vehicle_model._vel 
+            return False
+
+        vel = np.zeros(6)
+        vel = self._vehicle_model._vel
+
+        acc = np.zeros(6)
+        acc = (vel - self._last_vel) / dt
+
         p = self._vehicle_model._pose['pos']
         q = self._vehicle_model._pose['rot']
 
@@ -77,17 +99,23 @@ class ROV_CascadedController(DPControllerBase):
         v_linear = self._lin_pos_pid_reg.regulate(e_pos_body, t)
         v_angular = self._ang_pos_pid_reg.regulate(e_rot, t)
 
-        e_linear_vel = v_linear - np.array([self._vehicle_model._vel[0], self._vehicle_model._vel[1], self._vehicle_model._vel[2]])
-        e_angular_vel = v_angular - np.array([self._vehicle_model._vel[3], self._vehicle_model._vel[4], self._vehicle_model._vel[5]])
+        e_linear_vel = v_linear - np.array([vel[0], vel[1], vel[2]])
+        e_angular_vel = v_angular - np.array([vel[3], vel[4], vel[5]])
 
         a_linear = self._lin_vel_pid_reg.regulate(e_linear_vel, t)
         a_angular = self._ang_vel_pid_reg.regulate(e_angular_vel, t)
 
         accel = np.hstack((a_linear, a_angular)).transpose()
-        self._force_torque = self._mass_inertial_matrix.dot(accel)
+        if self._use_cascaded_pid:
+            self._force_torque = self._mass_inertial_matrix.dot(accel)
+        else:
+            self._force_torque = self._vehicle_model.compute_force(acc, vel)
                     
         # Publish control forces and torques
         self.publish_control_wrench(self._force_torque)
+        self._last_t = t
+        self._last_vel = self._vehicle_model._vel
+
         return True
 
 

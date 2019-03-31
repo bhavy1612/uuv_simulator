@@ -14,6 +14,7 @@
     world_ned frame
   -->
   <arg name="use_ned_frame" default="false"/>
+  <param name="use_cascaded_pid" value="true" type="bool"/>
 
   <!-- If the file is not used, read the parameters from the user input -->
   <!-- Caution: no spaces between the parameter values -->
