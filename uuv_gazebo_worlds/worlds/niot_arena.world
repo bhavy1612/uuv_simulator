@@ -170,6 +170,7 @@
     </plugin>
 
     <plugin name="sc_interface" filename="libuuv_sc_ros_interface_plugin.so"/>
+    <plugin name="gazebo_octomap" filename="librotors_gazebo_octomap_plugin.so"/>
 
   </world>
 </sdf>
