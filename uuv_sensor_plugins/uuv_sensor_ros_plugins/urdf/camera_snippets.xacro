@@ -133,7 +133,7 @@
         </camera>
         <plugin name="camera${suffix}_controller" filename="libgazebo_ros_camera.so">
           <updateRate>${update_rate}</updateRate>
-          <cameraName>${namespace}/camera${suffix}</cameraName>
+          <cameraName>${suffix}_camera</cameraName>
           <frameName>camera${suffix}_link_optical</frameName>
 
           <attenuationR>0.0</attenuationR>
@@ -145,7 +145,7 @@
           <backgroundB>0</backgroundB>
 
           <!-- required for ros depth cam -->
-          <imageTopicName>${topic}_image</imageTopicName>
+          <imageTopicName>image_raw</imageTopicName>
           <pointCloudTopicName>${topic}_cloud</pointCloudTopicName>
           <depthImageTopicName>${topic}_depth</depthImageTopicName>
           <depthImageCameraInfoTopicName>${topic}_depth_info</depthImageCameraInfoTopicName>
