@@ -13,13 +13,13 @@
     <visual>
       <origin rpy="1.5707963267949 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://robosub_descriptions/models/PathMarker/PathMarker.dae"/>
+        <mesh filename="file://models/PathMarker/PathMarker.dae"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="1.5707963267949 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://robosub_descriptions/models/PathMarker/PathMarker.stl"/>
+        <mesh filename="file://models/PathMarker/PathMarker.stl"/>
       </geometry>
     </collision>
   </link>
