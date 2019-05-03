@@ -71,13 +71,13 @@ class DPControllerLocalPlanner(object):
         # Is underactuated?
         self._is_underactuated = rospy.get_param('~is_underactuated', False)
 
-        self.inertial_frame_id = 'world'
+        self.inertial_frame_id ='odom'
         self.transform_ned_to_enu = None
         self.q_ned_to_enu = None
         if rospy.has_param('~inertial_frame_id'):
-            self.inertial_frame_id = rospy.get_param('~inertial_frame_id')
+            self.inertial_frame_id = rospy.get_param('~inertial_frame_id','odom')
             assert len(self.inertial_frame_id) > 0
-            assert self.inertial_frame_id in ['world', 'world_ned']
+            #assert self.inertial_frame_id in ['world', 'world_ned']
 
         self._logger.info('Inertial frame ID=' + self.inertial_frame_id)
 
@@ -88,7 +88,7 @@ class DPControllerLocalPlanner(object):
         tf_trans_ned_to_enu = None
         try:
             tf_trans_ned_to_enu = tf_buffer.lookup_transform(
-                'world', 'world_ned', rospy.Time(),
+                'world', 'odom', rospy.Time(),
                 rospy.Duration(10))
         except Exception, e:
             tf_trans_ned_to_enu = None
