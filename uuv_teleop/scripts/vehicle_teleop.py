@@ -49,7 +49,7 @@ class VehicleTeleop:
 
         # Dead zone: Force values close to 0 to 0
         # (Recommended for imprecise controllers)
-        self._deadzone = 0.5
+        self._deadzone = 0.2
         if rospy.has_param('~deadzone'):
             self._deadzone = float(rospy.get_param('~deadzone'))
 
@@ -62,7 +62,7 @@ class VehicleTeleop:
         if rospy.has_param('~exclusion_buttons'):
             self._exclusion_buttons = rospy.get_param('~exclusion_buttons')
             if type(self._exclusion_buttons) in [float, int]:
-                self._exclusion_buttons = [int(self._exclusion_buttons)]
+                self._exclusion_buttons = [int(self._exclusion_buttons)]    
             elif type(self._exclusion_buttons) == list:
                 for n in self._exclusion_buttons:
                     if type(n) not in [float, int]:
@@ -130,7 +130,7 @@ class VehicleTeleop:
             a = Vector3(0, 0, 0)
 
             if self._axes['roll'] > -1 and abs(joy.axes[self._axes['roll']]) > self._deadzone:
-                a.x += self._axes_gain['roll'] * joy.axes[self._axes['roll']]
+                a.x += self._axes_gain['roll'] * (-joy.axes[self._axes['roll']])
 
             if self._axes['rollfast'] > -1 and abs(joy.axes[self._axes['rollfast']]) > self._deadzone:
                 a.x += self._axes_gain['rollfast'] * joy.axes[self._axes['rollfast']]

@@ -336,20 +336,20 @@ class ThrusterManager:
         if not self.ready:
             return
 
-        if frame_id is not None:
-            if self.config['base_link'] != frame_id:
-                assert self.base_link_ned_to_enu is not None, 'Transform from'
-                ' base_link_ned to base_link could not be found'
-                if 'base_link_ned' not in self.config['base_link']:
-                    control_forces = numpy.dot(self.base_link_ned_to_enu,
-                                               control_forces)
-                    control_torques = numpy.dot(self.base_link_ned_to_enu,
-                                                control_torques)
-                else:
-                    control_forces = numpy.dot(self.base_link_ned_to_enu.T,
-                                               control_forces)
-                    control_torques = numpy.dot(self.base_link_ned_to_enu.T,
-                                                control_torques)
+        # if frame_id is not None:
+        #     if self.config['base_link'] != frame_id:
+        #         assert self.base_link_ned_to_enu is not None, 'Transform from'
+        #         ' base_link_ned to base_link could not be found'
+        #         if 'base_link_ned' not in self.config['base_link']:
+        #             control_forces = numpy.dot(self.base_link_ned_to_enu,
+        #                                        control_forces)
+        #             control_torques = numpy.dot(self.base_link_ned_to_enu,
+        #                                         control_torques)
+        #         else:
+        #             control_forces = numpy.dot(self.base_link_ned_to_enu.T,
+        #                                        control_forces)
+        #             control_torques = numpy.dot(self.base_link_ned_to_enu.T,
+        #                                         control_torques)
 
         gen_forces = numpy.hstack(
             (control_forces, control_torques)).transpose()

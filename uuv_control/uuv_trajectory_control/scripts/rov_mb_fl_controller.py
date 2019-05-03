@@ -63,7 +63,6 @@ class ROV_MBFLController(DPPIDControllerBase):
             return False
         self._pid_control = self.update_pid()
 
-        
         vel = self._vehicle_model.to_SNAME(self._reference['vel'])
         acc = (vel - self._last_vel) / dt
 

@@ -17,7 +17,9 @@ import numpy as np
 import rospy
 from uuv_control_msgs.srv import *
 from uuv_control_interfaces.dp_controller_base import DPControllerBase
-
+import tf.transformations as trans
+import math
+from PID import PIDRegulator
 
 class DPPIDControllerBase(DPControllerBase):
     """
@@ -106,6 +108,7 @@ class DPPIDControllerBase(DPControllerBase):
     def update_pid(self):
         if not self.odom_is_init:
             return
+
         # Update integrator
         self._int += 0.5 * (self.error_pose_euler + self._error_pose) * self._dt
         # Store current pose error
@@ -113,3 +116,4 @@ class DPPIDControllerBase(DPControllerBase):
         return np.dot(self._Kp, self.error_pose_euler) \
             + np.dot(self._Kd, self._errors['vel']) \
             + np.dot(self._Ki, self._int)
+        

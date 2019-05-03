@@ -21,19 +21,27 @@ from dynamic_reconfigure.server import Server
 from geometry_msgs.msg import Accel
 from geometry_msgs.msg import Wrench
 from rospy.numpy_msg import numpy_msg
+from nav_msgs.msg import Odometry
+from uuv_control_interfaces import Vehicle
 
 class AccelerationControllerNode:
     def __init__(self):
         print('AccelerationControllerNode: initializing node')
 
+        self.vehicle_model = Vehicle()
+
         self.ready = False
         self.mass = 1.
         self.inertial_tensor = numpy.identity(3)
         self.mass_inertial_matrix = numpy.zeros((6, 6))
+        self.vel_ = numpy.zeros(6)
+        self.acc_ = numpy.zeros(6)
 
         # ROS infrastructure
         self.sub_accel = rospy.Subscriber(
           'cmd_accel', numpy_msg(Accel), self.accel_callback)
+        self.sub_vel = rospy.Subscriber(
+          '/anahita/pose_gt', numpy_msg(Odometry), self.vel_callback)
         self.sub_force = rospy.Subscriber(
           'cmd_force', numpy_msg(Accel), self.force_callback)
         self.pub_gen_force = rospy.Publisher(
@@ -82,6 +90,16 @@ class AccelerationControllerNode:
 
         self.pub_gen_force.publish(force_msg)
 
+    def vel_callback(self, msg):
+        """Handle updated measured velocity callback."""
+
+        if not self.ready:
+            return
+      
+        p = msg.twist.twist.linear
+        q = msg.twist.twist.angular
+        self.vel_ = numpy.array([p.x, p.y, p.z, q.x, q.y, q.z])
+
     def accel_callback(self, msg):
         if not self.ready:
             return
@@ -91,7 +109,10 @@ class AccelerationControllerNode:
         angular = numpy.array((msg.angular.x, msg.angular.y, msg.angular.z))
         accel = numpy.hstack((linear, angular)).transpose()
 
+        self.acc_ = numpy.array((msg.linear.x, msg.linear.y, msg.linear.z, msg.angular.x, msg.angular.y, msg.angular.z))
+
         # convert acceleration to force / torque
+        # force_torque = self.vehicle_model.compute_force(self.acc_, self.vel_)
         force_torque = self.mass_inertial_matrix.dot(accel)
 
         force_msg = Wrench()

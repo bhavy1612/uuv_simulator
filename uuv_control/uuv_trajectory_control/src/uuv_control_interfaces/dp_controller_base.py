@@ -248,6 +248,7 @@ class DPControllerBase(object):
         """
         if self._vehicle_model is not None:
             del self._vehicle_model
+        # print 'yo yo inertial_frame_id: '+self._local_planner.inertial_frame_id
         self._vehicle_model = Vehicle(
             inertial_frame_id=self._local_planner.inertial_frame_id)
 
@@ -350,6 +351,8 @@ class DPControllerBase(object):
     def publish_control_wrench(self, force):
         if not self.odom_is_init:
             return
+
+        # print force
 
         # Apply saturation
         for i in range(6):

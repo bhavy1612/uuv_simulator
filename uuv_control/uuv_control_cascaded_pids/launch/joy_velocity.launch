@@ -29,5 +29,7 @@
     <arg name="joy_id" value="$(arg joy_id)"/>
     <arg name="output_topic" value="cmd_vel"/>
     <arg name="message_type" value="twist"/>
+    <arg name="gain_roll" default="0.0"/>
+    <arg name="gain_pitch" default="0.0"/>
   </include>
 </launch>

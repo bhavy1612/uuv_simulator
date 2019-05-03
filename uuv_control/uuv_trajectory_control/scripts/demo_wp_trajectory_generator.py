@@ -128,20 +128,14 @@ if __name__ == '__main__':
     # For a helical trajectory
     wp_set = uuv_waypoints.WaypointSet()
     # Add some waypoints at the beginning
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(-10, -12, -36, 0.5),
-                        add_to_beginning=True)
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(-13, -15, -44, 0.5),
-                        add_to_beginning=True)
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(-20, -24, -48, 0.5),
-                        add_to_beginning=True)
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(-10, 10, -5, 0.5))
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(-20, 20, -5, 0.5))
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(-30, 60, -50, 0.5))
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(-40, 70, -55, 0.5))
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(-40, 80, -30, 0.5))
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(0, 0, -2, 0.2))
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(1, 0, -2, 0.2))
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(3, 0, -2, 0.2))
 
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(3, 3, -2, 0.2))
+    
     run_generator(wp_set, 'cubic_interpolator')
-    run_generator(wp_set, 'lipb_interpolator')
+    # run_generator(wp_set, 'lipb_interpolator')
 
     plt.show()
 

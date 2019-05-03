@@ -61,6 +61,6 @@
   </include>
 
   <group if="$(arg launch_rviz)">
-    <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find uuv_gazebo)/rviz/rexrov_default.rviz"/>
+    <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find uuv_gazebo)/rviz/anahita_default.rviz"/>
   </group>
 </launch>
