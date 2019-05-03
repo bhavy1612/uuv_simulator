@@ -158,7 +158,7 @@ class DPControllerBase(object):
 
         # Subscribe to odometry topic
         self._odom_topic_sub = rospy.Subscriber(
-            'odom', numpy_msg(Odometry), self._odometry_callback)
+            '/anahita/pose_gt', numpy_msg(Odometry), self._odometry_callback)
 
         # Stores last simulation time
         self._prev_t = -1.0
@@ -400,6 +400,7 @@ class DPControllerBase(object):
 
     def _odometry_callback(self, msg):
         """Odometry topic subscriber callback function."""
+        rospy.loginfo(msg)
         self._vehicle_model.update_odometry(msg)
 
         if not self._init_odom:

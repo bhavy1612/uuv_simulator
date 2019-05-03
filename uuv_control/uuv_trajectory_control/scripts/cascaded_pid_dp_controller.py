@@ -21,7 +21,7 @@ class ROV_CascadedController(DPControllerBase):
 
         self._mass = rospy.get_param("pid/mass")
         self._inertial = rospy.get_param("pid/inertial")
-        self._use_cascaded_pid = rospy.get_param("use_cascaded_pid")
+        self._use_cascaded_pid = rospy.get_param("use_cascaded_pid", True)
 
         self._last_vel = np.zeros(6)
         self._last_t = None
