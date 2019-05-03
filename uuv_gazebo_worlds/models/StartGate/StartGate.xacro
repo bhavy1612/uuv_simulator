@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"
+  name="StartGate_robot">
+
+<!-- Loading file with sensor macros -->
+<xacro:include filename="$(find uuv_sensor_ros_plugins)/urdf/sensor_snippets.xacro"/>
+
+<xacro:macro name="startgate_base" params="namespace">
+
+  <link
+    name="${namespace}/base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+        <inertia
+          ixx="0.01"
+          ixy="0.01"
+          ixz="0.01"
+          iyy="0.01"
+          iyz="0.01"
+          izz="0.01" />
+      </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robosub_descriptions/models/StartGate/StartGate.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robosub_descriptions/models/StartGate/StartGate.dae" />
+      </geometry>
+    </collision>
+  </link>
+
+  <xacro:default_pose_3d namespace="${namespace}" parent_link="${namespace}/base_link" />
+
+  <gazebo reference="${namespace}/base_link">
+      <turnGravityOff>true</turnGravityOff>
+  </gazebo>
+
+  <gazebo>
+      <static>true</static>
+  </gazebo>
+
+</xacro:macro>
+
+<xacro:startgate_base namespace="$(arg namespace)"/>
+
+</robot>
