@@ -248,7 +248,6 @@ class DPControllerBase(object):
         """
         if self._vehicle_model is not None:
             del self._vehicle_model
-        # print 'yo yo inertial_frame_id: '+self._local_planner.inertial_frame_id
         self._vehicle_model = Vehicle(
             inertial_frame_id=self._local_planner.inertial_frame_id)
 
@@ -352,8 +351,6 @@ class DPControllerBase(object):
         if not self.odom_is_init:
             return
 
-        # print force
-
         # Apply saturation
         for i in range(6):
             if force[i] < -self._control_saturation:
@@ -400,7 +397,7 @@ class DPControllerBase(object):
 
     def _odometry_callback(self, msg):
         """Odometry topic subscriber callback function."""
-        rospy.loginfo(msg)
+        # rospy.loginfo(msg)
         self._vehicle_model.update_odometry(msg)
 
         if not self._init_odom:

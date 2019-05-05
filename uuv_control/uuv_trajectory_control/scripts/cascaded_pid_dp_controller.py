@@ -11,7 +11,7 @@ class ROV_CascadedController(DPControllerBase):
     _LABEL = 'Cascaded PID dynamic position controller'
 
     def __init__(self):
-        DPControllerBase.__init__(self, True)
+        DPControllerBase.__init__(self, is_model_based=False, planner_full_dof=False)
         self._logger.info('Initializing: ' + self._LABEL)
 
         self._force_torque = np.zeros(6)
@@ -20,7 +20,9 @@ class ROV_CascadedController(DPControllerBase):
         self._logger.info(self._LABEL + ' ready')
 
         self._mass = rospy.get_param("pid/mass")
+        print self._mass
         self._inertial = rospy.get_param("pid/inertial")
+        print self._inertial
         self._use_cascaded_pid = rospy.get_param("use_cascaded_pid", True)
 
         self._last_vel = np.zeros(6)
@@ -31,18 +33,35 @@ class ROV_CascadedController(DPControllerBase):
           [[self._inertial['ixx'], self._inertial['ixy'], self._inertial['ixz']],
            [self._inertial['ixy'], self._inertial['iyy'], self._inertial['iyz']],
            [self._inertial['ixz'], self._inertial['iyz'], self._inertial['izz']]])
+        
         self._mass_inertial_matrix = np.vstack((
           np.hstack((self._mass*np.identity(3), np.zeros((3, 3)))),
           np.hstack((np.zeros((3, 3)), self._inertial_tensor))))
         
         self._velocity_pid = rospy.get_param('velocity_control')
+        print self._velocity_pid
         self._position_pid = rospy.get_param('position_control')
+        print self._position_pid
         
-        self._lin_vel_pid_reg = PIDRegulator(self._velocity_pid['linear_p'], self._velocity_pid['linear_i'], self._velocity_pid['linear_d'], self._velocity_pid['linear_sat'])
-        self._ang_vel_pid_reg = PIDRegulator(self._velocity_pid['angular_p'], self._velocity_pid['angular_i'], self._velocity_pid['angular_d'], self._velocity_pid['angular_sat'])
+        self._lin_vel_pid_reg = PIDRegulator(self._velocity_pid['linear_p'], \
+                                            self._velocity_pid['linear_i'], \
+                                            self._velocity_pid['linear_d'], \
+                                            self._velocity_pid['linear_sat'])
 
-        self._lin_pos_pid_reg = PIDRegulator(self._position_pid['pos_p'], self._position_pid['pos_i'], self._position_pid['pos_d'], self._position_pid['pos_sat'])
-        self._ang_pos_pid_reg = PIDRegulator(self._position_pid['rot_p'], self._position_pid['rot_i'], self._position_pid['rot_d'], self._position_pid['rot_sat'])
+        self._ang_vel_pid_reg = PIDRegulator(self._velocity_pid['angular_p'], \
+                                            self._velocity_pid['angular_i'], \
+                                            self._velocity_pid['angular_d'], \
+                                            self._velocity_pid['angular_sat'])
+
+        self._lin_pos_pid_reg = PIDRegulator(self._position_pid['pos_p'], \
+                                            self._position_pid['pos_i'], \
+                                            self._position_pid['pos_d'], \
+                                            self._position_pid['pos_sat'])
+
+        self._ang_pos_pid_reg = PIDRegulator(self._position_pid['rot_p'], \
+                                            self._position_pid['rot_i'], \
+                                            self._position_pid['rot_d'], \
+                                            self._position_pid['rot_sat'])
 
         self._logger.info('Cascaded PID controller ready!')
 
@@ -81,6 +100,11 @@ class ROV_CascadedController(DPControllerBase):
 
         # Position error
         e_pos_world = self._reference['pos'] - p
+        print 'ref_pose'
+        print self._reference['pos']
+        print 'ref_angle'
+        print self._reference['rot']
+
         e_pos_body = trans.quaternion_matrix(q).transpose()[0:3,0:3].dot(e_pos_world)
 
         # Error quaternion wrt body frame

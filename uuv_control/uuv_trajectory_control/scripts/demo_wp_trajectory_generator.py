@@ -128,11 +128,11 @@ if __name__ == '__main__':
     # For a helical trajectory
     wp_set = uuv_waypoints.WaypointSet()
     # Add some waypoints at the beginning
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(0, 0, -2, 0.2))
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(1, 0, -2, 0.2))
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(3, 0, -2, 0.2))
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(0, 0, -2.4, 0.5, use_fixed_heading=True))
+    wp_set.add_waypoint(uuv_waypoints.Waypoint(0, 5, -2.4, 0.5, use_fixed_heading=True))
+    # wp_set.add_waypoint(uuv_waypoints.Waypoint(3, 5, -2, 0.2))
 
-    wp_set.add_waypoint(uuv_waypoints.Waypoint(3, 3, -2, 0.2))
+    # wp_set.add_waypoint(uuv_waypoints.Waypoint(3, 10, -2, 0.2))
     
     run_generator(wp_set, 'cubic_interpolator')
     # run_generator(wp_set, 'lipb_interpolator')

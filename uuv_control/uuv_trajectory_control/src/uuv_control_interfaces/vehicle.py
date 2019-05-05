@@ -46,7 +46,7 @@ class Vehicle(object):
 
     INSTANCE = None
 
-    def __init__(self, inertial_frame_id='odom'):
+    def __init__(self, inertial_frame_id='world'):
         """Class constructor."""
         #assert inertial_frame_id in ['world', 'world_ned']
         # Reading current namespace
@@ -56,7 +56,7 @@ class Vehicle(object):
         self._inertial_frame_id = inertial_frame_id
         self._body_frame_id = None
 
-        if self._inertial_frame_id == 'odom':
+        if self._inertial_frame_id == 'world_ned':
             self._body_frame_id = 'anahita/base_link'
         else:
             self._body_frame_id = 'base_link_ned'
@@ -66,7 +66,7 @@ class Vehicle(object):
         tf_trans_ned_to_enu = None
         try:
             tf_trans_ned_to_enu = tf_buffer.lookup_transform(
-                'world', 'odom', rospy.Time(),
+                'world', 'world_ned', rospy.Time(),
                 rospy.Duration(1))
         except Exception, e:
             self._logger.error('No transform found between world and the '
