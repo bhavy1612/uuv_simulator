@@ -28,7 +28,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://robosub_descriptions/models/StartGate/StartGate.dae" />
+        <mesh filename="package://uuv_gazebo_worlds/models/StartGate/StartGate.dae" />
       </geometry>
     </visual>
     <collision>
@@ -36,7 +36,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://robosub_descriptions/models/StartGate/StartGate.dae" />
+        <mesh filename="package://uuv_gazebo_worlds/models/StartGate/StartGate.dae" />
       </geometry>
     </collision>
   </link>

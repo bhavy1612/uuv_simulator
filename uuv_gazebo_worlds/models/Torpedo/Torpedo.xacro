@@ -23,7 +23,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robosub_descriptions/models/Torpedo/Torpedo.stl" />
+          filename="package://uuv_gazebo_worlds/models/Torpedo/Torpedo.stl" />
       </geometry>
     </visual>
     <collision>
@@ -32,7 +32,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robosub_descriptions/models/Torpedo/Torpedo.stl" />
+          filename="package://uuv_gazebo_worlds/models/Torpedo/Torpedo.stl" />
       </geometry>
     </collision>
   </link>
