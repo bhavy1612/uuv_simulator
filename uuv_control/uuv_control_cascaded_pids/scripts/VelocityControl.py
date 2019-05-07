@@ -64,16 +64,16 @@ class VelocityControllerNode:
         v_linear = numpy.array([linear.x, linear.y, linear.z])
         v_angular = numpy.array([angular.x, angular.y, angular.z])
 
-        if self.config['odom_vel_in_world']:
-            # This is a temp. workaround for gazebo's pos3d plugin not behaving properly:
-            # Twist should be provided wrt child_frame, gazebo provides it wrt world frame
-            # see http://docs.ros.org/api/nav_msgs/html/msg/Odometry.html
-            xyzw_array = lambda o: numpy.array([o.x, o.y, o.z, o.w])
-            q_wb = xyzw_array(msg.pose.pose.orientation)
-            R_bw = trans.quaternion_matrix(q_wb)[0:3, 0:3].transpose()
+        # if self.config['odom_vel_in_world']:
+        #     # This is a temp. workaround for gazebo's pos3d plugin not behaving properly:
+        #     # Twist should be provided wrt child_frame, gazebo provides it wrt world frame
+        #     # see http://docs.ros.org/api/nav_msgs/html/msg/Odometry.html
+        #     xyzw_array = lambda o: numpy.array([o.x, o.y, o.z, o.w])
+        #     q_wb = xyzw_array(msg.pose.pose.orientation)
+        #     R_bw = trans.quaternion_matrix(q_wb)[0:3, 0:3].transpose()
 
-            v_linear = R_bw.dot(v_linear)
-            v_angular = R_bw.dot(v_angular)
+        #     v_linear = R_bw.dot(v_linear)
+        #     v_angular = R_bw.dot(v_angular)
 
         # Compute compute control output:
         t = msg.header.stamp.to_sec()

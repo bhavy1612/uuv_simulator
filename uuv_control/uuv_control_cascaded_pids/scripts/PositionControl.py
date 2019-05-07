@@ -78,7 +78,7 @@ class PositionControllerNode:
         # Position error
         e_pos_world = self.pos_des - p
         e_pos_body = trans.quaternion_matrix(q).transpose()[0:3,0:3].dot(e_pos_world)
-
+        
         # Error quaternion wrt body frame
         e_rot_quat = trans.quaternion_multiply(trans.quaternion_conjugate(q), self.quat_des)
 
