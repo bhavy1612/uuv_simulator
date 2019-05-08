@@ -173,7 +173,7 @@
       <always_on>1</always_on>
       <update_rate>30</update_rate>
       <visualize>true</visualize>
-    </sensor>
+      </sensor>
     </gazebo>
 
     <link name="${namespace}/duo3d_right_link">

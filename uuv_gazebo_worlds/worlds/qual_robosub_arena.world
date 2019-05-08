@@ -74,7 +74,12 @@
 
     <include>
       <uri>model://qual_gate</uri>
-      <pose>16.5129 -0.120733 -3.17087 -1.5809 0 0</pose>
+      <pose>1.223960 2.311615 -3.195446 -1.5809 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://qual_marker</uri>
+      <pose>17.026760 -0.095997 -3.905174 0 0 0</pose>
     </include>
 
     <include>

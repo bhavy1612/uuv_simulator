@@ -45,23 +45,23 @@ if __name__ == '__main__':
         interpolator = String()
         interpolator.data = 'cubic_interpolator'
         print 'adding waypoints....'
-        # resp = init_circular_trajectory(start_time = start_time, 
-        #                                 start_now = True,
-        #                                 radius=2,
-        #                                 center=center,
-        #                                 is_clockwise=True,
-        #                                 angle_offset=0.5,
-        #                                 n_points=10,
-        #                                 max_forward_speed = 1,
-        #                                 heading_offset = 0.5,
-        #                                 duration=150)
+        resp = init_circular_trajectory(start_time = start_time, 
+                                        start_now = True,
+                                        radius=2,
+                                        center=center,
+                                        is_clockwise=True,
+                                        angle_offset=0.5,
+                                        n_points=10,
+                                        max_forward_speed = 1,
+                                        heading_offset = 0.5,
+                                        duration=100)
 
-        resp = init_waypoint_set(start_time=start_time,
-                                start_now=True,
-                                waypoints=wp_set,
-                                max_forward_speed=0.5,
-                                heading_offset=0.5,
-                                interpolator=interpolator)
+        # resp = init_waypoint_set(start_time=start_time,
+        #                         start_now=True,
+        #                         waypoints=wp_set,
+        #                         max_forward_speed=0.5,
+        #                         heading_offset=0.5,
+        #                         interpolator=interpolator)
 
         if resp.success:
             print "waypoints successfully added"
