@@ -358,10 +358,10 @@ class DPControllerBase(object):
             elif force[i] > self._control_saturation:
                 force[i] = self._control_saturation
 
-        if not self.thrusters_only:
-            surge_speed = self._vehicle_model.vel[0]
-            self.publish_auv_command(surge_speed, force)
-            return
+        # if not self.thrusters_only:
+        #     surge_speed = self._vehicle_model.vel[0]
+        #     self.publish_auv_command(surge_speed, force)
+        #     return
 
         force_msg = WrenchStamped()
         force_msg.header.stamp = rospy.Time.now()

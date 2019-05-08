@@ -7,6 +7,11 @@ from PID import PIDRegulator
 import math
 import tf.transformations as trans
 
+import geometry_msgs.msg as geometry_msgs
+from nav_msgs.msg import Odometry
+from rospy.numpy_msg import numpy_msg
+
+
 class ROV_CascadedController(DPControllerBase):
     _LABEL = 'Cascaded PID dynamic position controller'
 
@@ -15,6 +20,11 @@ class ROV_CascadedController(DPControllerBase):
         self._logger.info('Initializing: ' + self._LABEL)
 
         self._force_torque = np.zeros(6)
+
+        self.odom_pos = np.zeros(3)
+        self.odom_quat = np.array([0, 0, 0, 1])
+        self.odom_vel_ang = np.array(3)
+        self.odom_vel_lin = np.array(3)
 
         self._is_init = True
         self._logger.info(self._LABEL + ' ready')
@@ -63,6 +73,8 @@ class ROV_CascadedController(DPControllerBase):
                                             self._position_pid['rot_d'], \
                                             self._position_pid['rot_sat'])
 
+        self.sub_odometry = rospy.Subscriber('/anahita/pose_gt', numpy_msg(Odometry), self.o_callback)
+
         self._logger.info('Cascaded PID controller ready!')
 
 
@@ -100,10 +112,6 @@ class ROV_CascadedController(DPControllerBase):
 
         # Position error
         e_pos_world = self._reference['pos'] - p
-        print 'ref_pose'
-        print self._reference['pos']
-        print 'ref_angle'
-        print self._reference['rot']
 
         e_pos_body = trans.quaternion_matrix(q).transpose()[0:3,0:3].dot(e_pos_world)
 
@@ -130,6 +138,7 @@ class ROV_CascadedController(DPControllerBase):
         a_angular = self._ang_vel_pid_reg.regulate(e_angular_vel, t)
 
         accel = np.hstack((a_linear, a_angular)).transpose()
+
         if self._use_cascaded_pid:
             self._force_torque = self._mass_inertial_matrix.dot(accel)
         else:
@@ -142,6 +151,25 @@ class ROV_CascadedController(DPControllerBase):
 
         return True
 
+    def saturate (self):
+
+        for i in range(0, 6):
+            if (self._force_torque[i] > 1500):
+                self._force_torque[i] = 1500
+
+            if (self._force_torque[i] < -1500):
+                self._force_torque[i] = -1500
+
+    def o_callback (self, msg):
+
+        p = msg.pose.pose.position
+        q = msg.pose.pose.orientation
+        u = msg.twist.twist.linear
+        w = msg.twist.twist.angular
+        self.odom_pos = np.array([p.x, p.y, p.z])
+        self.odom_quat = np.array([q.x, q.y, q.z, q.w])
+        self.odom_vel_lin = np.array([u.x, u.y, u.z])
+        self.odom_vel_ang = np.array([w.x, u.y, u.z])
 
 if __name__ == '__main__':
     print('Starting Cascaded PID Controller')

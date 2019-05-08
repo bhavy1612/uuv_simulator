@@ -115,6 +115,13 @@ class AccelerationControllerNode:
         # force_torque = self.vehicle_model.compute_force(self.acc_, self.vel_)
         force_torque = self.mass_inertial_matrix.dot(accel)
 
+        for i in range(0, 6):
+          if (force_torque[i] > 1500):
+              force_torque[i] = 1500
+
+          if (force_torque[i] < -1500):
+              force_torque[i] = -1500
+
         force_msg = Wrench()
 
         force_msg.force.x = force_torque[0]
@@ -125,41 +132,41 @@ class AccelerationControllerNode:
         force_msg.torque.y = force_torque[4]
         force_msg.torque.z = force_torque[5]
 
-        if (force_torque[0] > 1500):
-          force_msg.force.x = 1500
+        # if (force_torque[0] > 1500):
+        #   force_msg.force.x = 1500
 
-        if (force_torque[0] < -1500):
-          force_msg.force.x = -1500
+        # if (force_torque[0] < -1500):
+        #   force_msg.force.x = -1500
 
-        if (force_torque[1] > 1500):
-          force_msg.force.y = 1500
+        # if (force_torque[1] > 1500):
+        #   force_msg.force.y = 1500
 
-        if (force_torque[1] < -1500):
-          force_msg.force.y = -1500
+        # if (force_torque[1] < -1500):
+        #   force_msg.force.y = -1500
 
-        if (force_torque[2] > 1500):
-          force_msg.force.z = 1500
+        # if (force_torque[2] > 1500):
+        #   force_msg.force.z = 1500
 
-        if (force_torque[2] < -1500):
-          force_msg.force.z = -1500
+        # if (force_torque[2] < -1500):
+        #   force_msg.force.z = -1500
 
-        if (force_torque[3] > 1500):
-          force_msg.torque.x = 1500
+        # if (force_torque[3] > 1500):
+        #   force_msg.torque.x = 1500
 
-        if (force_torque[3] < -1500):
-          force_msg.torque.x = -1500
+        # if (force_torque[3] < -1500):
+        #   force_msg.torque.x = -1500
 
-        if (force_torque[4] > 1500):
-          force_msg.torque.y = 1500
+        # if (force_torque[4] > 1500):
+        #   force_msg.torque.y = 1500
 
-        if (force_torque[4] < -1500):
-          force_msg.torque.y = -1500
+        # if (force_torque[4] < -1500):
+        #   force_msg.torque.y = -1500
 
-        if (force_torque[5] > 1500):
-          force_msg.torque.z = 1500
+        # if (force_torque[5] > 1500):
+        #   force_msg.torque.z = 1500
 
-        if (force_torque[5] < -1500):
-          force_msg.torque.z = -1500
+        # if (force_torque[5] < -1500):
+        #   force_msg.torque.z = -1500
 
         self.pub_gen_force.publish(force_msg)
 

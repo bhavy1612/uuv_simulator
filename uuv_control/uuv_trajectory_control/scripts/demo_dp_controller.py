@@ -38,7 +38,7 @@ if __name__ == '__main__':
         start_time.data.secs = rospy.get_rostime().to_sec()
         start_time.data.nsecs = rospy.get_rostime().to_nsec()
         center = Point()
-        center.x = 3
+        center.x = 2
         center.y = 0
         center.z = -2
         
@@ -51,10 +51,10 @@ if __name__ == '__main__':
                                         center=center,
                                         is_clockwise=True,
                                         angle_offset=0.5,
-                                        n_points=50,
-                                        max_forward_speed = 0.5,
+                                        n_points=10,
+                                        max_forward_speed = 1,
                                         heading_offset = 0.5,
-                                        duration=100)
+                                        duration=150)
 
         if resp.success:
             print "waypoints successfully added"

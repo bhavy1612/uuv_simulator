@@ -735,13 +735,13 @@ class Vehicle(object):
                             msg.twist.twist.linear.y,
                             msg.twist.twist.linear.z])
         # Transform linear velocity to the BODY frame
-        lin_vel = np.dot(self.rotItoB, lin_vel)
+        # lin_vel = np.dot(self.rotItoB, lin_vel)
         # Angular velocity in the INERTIAL frame
         ang_vel = np.array([msg.twist.twist.angular.x,
                             msg.twist.twist.angular.y,
                             msg.twist.twist.angular.z])
         # Transform angular velocity to BODY frame
-        ang_vel = np.dot(self.rotItoB, ang_vel)
+        # ang_vel = np.dot(self.rotItoB, ang_vel)
         # Store velocity vector
         self._vel = np.hstack((lin_vel, ang_vel))
 
