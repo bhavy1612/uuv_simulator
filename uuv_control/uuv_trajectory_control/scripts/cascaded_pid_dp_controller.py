@@ -10,6 +10,7 @@ import tf.transformations as trans
 import geometry_msgs.msg as geometry_msgs
 from nav_msgs.msg import Odometry
 from rospy.numpy_msg import numpy_msg
+from geometry_msgs.msg import Pose
 
 
 class ROV_CascadedController(DPControllerBase):
@@ -74,6 +75,7 @@ class ROV_CascadedController(DPControllerBase):
                                             self._position_pid['rot_sat'])
 
         self.sub_odometry = rospy.Subscriber('/anahita/pose_gt', numpy_msg(Odometry), self.o_callback)
+        self.cmd_pose_pub = rospy.Publisher('/anahita/cmd_pose', Pose, queue_size=10)
 
         self._logger.info('Cascaded PID controller ready!')
 
@@ -139,10 +141,25 @@ class ROV_CascadedController(DPControllerBase):
 
         accel = np.hstack((a_linear, a_angular)).transpose()
 
+        print "reference"
+        print self._reference
+
         if self._use_cascaded_pid:
             self._force_torque = self._mass_inertial_matrix.dot(accel)
         else:
             self._force_torque = self._vehicle_model.compute_force(acc, vel)
+
+        cmd_pose = Pose()
+        cmd_pose.position.x = self._reference['pos'][0]
+        cmd_pose.position.y = self._reference['pos'][1]
+        cmd_pose.position.z = self._reference['pos'][2]
+        cmd_pose.orientation.x = self._reference['rot'][0]
+        cmd_pose.orientation.y = self._reference['rot'][1]
+        cmd_pose.orientation.z = self._reference['rot'][2]
+        cmd_pose.orientation.w = self._reference['rot'][3]
+
+        self.cmd_pose_pub.publish(cmd_pose)
+        return True
                     
         # Publish control forces and torques
         self.publish_control_wrench(self._force_torque)

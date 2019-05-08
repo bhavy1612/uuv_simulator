@@ -11,27 +11,27 @@ if __name__ == '__main__':
 
     rospy.init_node('waypoint_server')
 
-    # wp1 = uuv_waypoints.Waypoint(0, 0, -2.4, 0.3, inertial_frame_id='world', use_fixed_heading=True)
-    # wp2 = uuv_waypoints.Waypoint(0, 5, -2.4, 0.3, inertial_frame_id='world', use_fixed_heading=True)
-    # wp3 = uuv_waypoints.Waypoint(3, 0, -2, 0.5, inertial_frame_id='world', use_fixed_heading=True)
-    # wp4 = uuv_waypoints.Waypoint(3, 3, -2, 0.5, inertial_frame_id='world', use_fixed_heading=True)
+    wp1 = uuv_waypoints.Waypoint(0, 0, -1.5, 0.3, inertial_frame_id='world', use_fixed_heading=True)
+    wp2 = uuv_waypoints.Waypoint(2, 0, -2.5, 0.3, inertial_frame_id='world', use_fixed_heading=True)
+    wp3 = uuv_waypoints.Waypoint(3, 2, -2.5, 0.5, inertial_frame_id='world', use_fixed_heading=True)
+    wp4 = uuv_waypoints.Waypoint(3, 3, -2, 0.5, inertial_frame_id='world', use_fixed_heading=True)
 
-    # wp1_msg = WaypointMsg()
-    # wp1_msg = wp1.to_message()
-    # wp2_msg = WaypointMsg()
-    # wp2_msg = wp2.to_message()
-    # wp3_msg = WaypointMsg()
-    # wp3_msg = wp3.to_message()
-    # wp4_msg = WaypointMsg()
-    # wp4_msg = wp4.to_message()
+    wp1_msg = WaypointMsg()
+    wp1_msg = wp1.to_message()
+    wp2_msg = WaypointMsg()
+    wp2_msg = wp2.to_message()
+    wp3_msg = WaypointMsg()
+    wp3_msg = wp3.to_message()
+    wp4_msg = WaypointMsg()
+    wp4_msg = wp4.to_message()
 
     print 'waiting for circular server'
     rospy.wait_for_service('anahita/start_circular_trajectory')
 
-    # wp_set = [wp1_msg, wp2_msg]
+    wp_set = [wp1_msg, wp2_msg, wp3_msg]
 
     try:
-        # init_waypoint_set = rospy.ServiceProxy('anahita/start_waypoint_list', InitWaypointSet)
+        init_waypoint_set = rospy.ServiceProxy('anahita/start_waypoint_list', InitWaypointSet)
         init_circular_trajectory = rospy.ServiceProxy('anahita/start_circular_trajectory', InitCircularTrajectory)
         
         start_time = Time()
@@ -45,16 +45,23 @@ if __name__ == '__main__':
         interpolator = String()
         interpolator.data = 'cubic_interpolator'
         print 'adding waypoints....'
-        resp = init_circular_trajectory(start_time = start_time, 
-                                        start_now = True,
-                                        radius=2,
-                                        center=center,
-                                        is_clockwise=True,
-                                        angle_offset=0.5,
-                                        n_points=10,
-                                        max_forward_speed = 1,
-                                        heading_offset = 0.5,
-                                        duration=150)
+        # resp = init_circular_trajectory(start_time = start_time, 
+        #                                 start_now = True,
+        #                                 radius=2,
+        #                                 center=center,
+        #                                 is_clockwise=True,
+        #                                 angle_offset=0.5,
+        #                                 n_points=10,
+        #                                 max_forward_speed = 1,
+        #                                 heading_offset = 0.5,
+        #                                 duration=150)
+
+        resp = init_waypoint_set(start_time=start_time,
+                                start_now=True,
+                                waypoints=wp_set,
+                                max_forward_speed=0.5,
+                                heading_offset=0.5,
+                                interpolator=interpolator)
 
         if resp.success:
             print "waypoints successfully added"
