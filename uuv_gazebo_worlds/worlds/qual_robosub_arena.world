@@ -79,7 +79,7 @@
 
     <include>
       <uri>model://qual_marker</uri>
-      <pose>17.026760 -0.095997 -3.905174 0 0 0</pose>
+      <pose>17.026760 -0.095997 -2.963422 0 0 0</pose>
     </include>
 
     <include>
