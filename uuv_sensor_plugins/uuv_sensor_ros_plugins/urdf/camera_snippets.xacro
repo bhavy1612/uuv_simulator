@@ -33,10 +33,10 @@
       parent_link="${parent_link}"
       topic="camera"
       mass="0.1"
-      update_rate="30"
+      update_rate="15"
       hfov="1.5125"
-      width="768"
-      height="492"
+      width="640"
+      height="480"
       stddev="0.02"
       scale="1.0">
       <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
@@ -53,8 +53,8 @@
       mass="0.015"
       update_rate="30"
       hfov="1.8125"
-      width="768"
-      height="492"
+      width="640"
+      height="480"
       stddev="0.02"
       scale="1.0">
       <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
