@@ -90,8 +90,10 @@ class CSInterpolator(PathGenerator):
 
     def get_samples(self, max_time, step=0.001):
         if self._waypoints is None:
+            print 'aise kaise betichod'
             return None
         if self._interp_fcns['pos'] is None:
+            print 'harami'
             return None
         s = np.arange(0, 1 + step, step)
 

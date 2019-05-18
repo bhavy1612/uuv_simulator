@@ -17,6 +17,7 @@ class ROV_CascadedController(DPControllerBase):
     _LABEL = 'Cascaded PID dynamic position controller'
 
     def __init__(self):
+        self._last_t = None
         DPControllerBase.__init__(self, is_model_based=False, planner_full_dof=False)
         self._logger.info('Initializing: ' + self._LABEL)
 
@@ -37,7 +38,6 @@ class ROV_CascadedController(DPControllerBase):
         self._use_cascaded_pid = rospy.get_param("use_cascaded_pid", True)
 
         self._last_vel = np.zeros(6)
-        self._last_t = None
 
         # update mass, moments of inertia
         self._inertial_tensor = np.array(
@@ -141,8 +141,8 @@ class ROV_CascadedController(DPControllerBase):
 
         accel = np.hstack((a_linear, a_angular)).transpose()
 
-        print "reference"
-        print self._reference
+        # print "reference"
+        # print self._reference
 
         if self._use_cascaded_pid:
             self._force_torque = self._mass_inertial_matrix.dot(accel)

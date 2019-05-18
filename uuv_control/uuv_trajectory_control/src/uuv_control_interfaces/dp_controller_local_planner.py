@@ -18,12 +18,14 @@ import numpy as np
 from copy import deepcopy
 from os.path import isfile
 from std_msgs.msg import Bool, Float64
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, Point
 from uuv_control_msgs.srv import *
+from nav_msgs.msg import Odometry
+from rospy.numpy_msg import numpy_msg
 
 from uuv_control_msgs.msg import Trajectory, TrajectoryPoint, WaypointSet
 from visualization_msgs.msg import MarkerArray
-from geometry_msgs.msg import Point
+from geometry_msgs.msg import Point, Pose
 import uuv_trajectory_generator
 import uuv_waypoints
 import logging
@@ -175,10 +177,16 @@ class DPControllerLocalPlanner(object):
 
         self._waypoints_msg = None
         self._trajectory_msg = None
+        self._wp_end = Point()
+        self._curr_wp = Pose()
+        self._end_pose = Pose()
 
         # Subscribing topic for the trajectory given to the controller
         self._input_trajectory_sub = rospy.Subscriber(
             'input_trajectory', Trajectory, self._update_trajectory_from_msg)
+
+        self._odom_sub = rospy.Subscriber(
+            '/anahita/pose_gt', numpy_msg(Odometry), self._odomCB)
 
         self._max_time_pub = rospy.Publisher('time_to_target', Float64, queue_size=1)
 
@@ -216,6 +224,12 @@ class DPControllerLocalPlanner(object):
         self._services['go_to'] = rospy.Service('go_to', GoTo, self.go_to)
         self._services['go_to_incremental'] = rospy.Service(
             'go_to_incremental', GoToIncremental, self.go_to_incremental)
+        self._services['go_to_pose'] = rospy.Service(
+            'go_to_pose', GoToPose, self.go_to_pose)
+        self._services['trajectory_complete'] = rospy.Service(
+            'trajectory_complete', TrajectoryComplete, self.is_trajectory_complete)
+        self._services['pose_reach'] = rospy.Service('pose_reach',
+            PoseReach, self._is_pose_reached)
 
     def __del__(self):
         """Remove logging message handlers"""
@@ -450,8 +464,22 @@ class DPControllerLocalPlanner(object):
 
         return self._traj_interpolator.has_started()
 
+    def _odomCB(self, msg):
+        """Odometry topic subscriber callback function."""
+        self._curr_wp = msg.pose.pose
+
+    def calc_dist(self):
+        dist = (self._curr_wp.position.x - self._wp_end.x)*(self._curr_wp.position.x - self._wp_end.x) + \
+               (self._curr_wp.position.y - self._wp_end.y)*(self._curr_wp.position.y - self._wp_end.y) + \
+               (self._curr_wp.position.z - self._wp_end.z)*(self._curr_wp.position.z - self._wp_end.z)
+        return dist
+
     def has_finished(self):
-        return self._traj_interpolator.has_finished()
+        # return self._traj_interpolator.has_finished()
+        if (self.calc_dist() < 0.05):
+            return True
+        else:
+            return False
 
     def update_vehicle_pose(self, pos, quat):
         if self._vehicle_pose is None:
@@ -490,6 +518,71 @@ class DPControllerLocalPlanner(object):
         self.start_station_keeping()
         return HoldResponse(True)
 
+    def go_to_pose(self, request):
+        """
+        Service callback function to achieve a certain pose
+        """
+        self.set_automatic_mode(False)
+        self.set_trajectory_running(False)
+        self.set_station_keeping(False)
+
+        print 'Got a pose target for the Anahita'
+        print request.target_pose
+        
+        self._this_ref_pnt = uuv_trajectory_generator.TrajectoryPoint()
+        self._this_ref_pnt.pos = np.array([request.target_pose.position.x, 
+                                           request.target_pose.position.y, 
+                                           request.target_pose.position.z])
+        self._this_ref_pnt.rotq = np.array([request.target_pose.orientation.x,
+                                            request.target_pose.orientation.y,
+                                            request.target_pose.orientation.z,
+                                            request.target_pose.orientation.w])
+
+        self._wp_end.x = request.target_pose.position.x
+        self._wp_end.y = request.target_pose.position.y
+        self._wp_end.z = request.target_pose.position.z
+
+        self._end_pose = request.target_pose
+
+        self._logger.info("Trajectory's end point: %f, %f, %f", self._wp_end.x, self._wp_end.y, self._wp_end.z)
+
+        return GoToPoseResponse(True)
+
+    def has_reached_pose(self):
+        dist = (self._curr_wp.position.x - self._end_pose.position.x)*(self._curr_wp.position.x - self._end_pose.position.x) + \
+               (self._curr_wp.position.y - self._end_pose.position.y)*(self._curr_wp.position.y - self._end_pose.position.y) + \
+               (self._curr_wp.position.z - self._end_pose.position.z)*(self._curr_wp.position.z - self._end_pose.position.z) + \
+               (self._curr_wp.orientation.x - self._end_pose.orientation.x)*(self._curr_wp.orientation.x - self._end_pose.orientation.x) + \
+               (self._curr_wp.orientation.y - self._end_pose.orientation.y)*(self._curr_wp.orientation.y - self._end_pose.orientation.y) + \
+               (self._curr_wp.orientation.z - self._end_pose.orientation.z)*(self._curr_wp.orientation.z - self._end_pose.orientation.z) + \
+               (self._curr_wp.orientation.w - self._end_pose.orientation.w)*(self._curr_wp.orientation.w - self._end_pose.orientation.w)
+        return dist < 0.005
+
+    def _is_pose_reached(self, request):
+        then = rospy.get_time()
+
+        while not self.has_reached_pose():
+            now = rospy.get_time()
+
+            if (now - then > request.time_out):
+               PoseReach(False) 
+            continue
+
+        return PoseReach(True)
+    
+    def is_trajectory_complete(self, request):
+
+        then = rospy.get_time()
+
+        while not self.has_finished():
+            now = rospy.get_time()
+
+            if (now - then > request.time_out):
+               TrajectoryCompleteResponse(False) 
+            continue
+
+        return TrajectoryCompleteResponse(True)
+
     def start_waypoint_list(self, request):
         """
         Service callback function to follow a set of waypoints
@@ -521,6 +614,14 @@ class DPControllerLocalPlanner(object):
         wp_set.from_message(waypointset_msg)
         wp_set = self._transform_waypoint_set(wp_set)
         wp_set = self._apply_workspace_constraints(wp_set)
+
+        wp = uuv_waypoints.Waypoint()
+        wp = wp_set.get_waypoint(wp_set.num_waypoints - 1)
+        self._wp_end.x = wp.x
+        self._wp_end.y = wp.y
+        self._wp_end.z = wp.z
+
+        self._logger.info("Trajectory's end point: %f, %f, %f", self._wp_end.x, self._wp_end.y, self._wp_end.z)
 
         if self._traj_interpolator.set_waypoints(wp_set, self.get_vehicle_rot()):
             self._station_keeping_center = None
@@ -568,6 +669,15 @@ class DPControllerLocalPlanner(object):
                 self._logger.error('Error generating circular trajectory from waypoint set')
                 return InitCircularTrajectoryResponse(False)
             wp_set = self._apply_workspace_constraints(wp_set)
+
+            wp = uuv_waypoints.Waypoint()
+            wp = wp_set.get_waypoint(wp_set.num_waypoints - 1)
+            self._wp_end.x = wp.x
+            self._wp_end.y = wp.y
+            self._wp_end.z = wp.z
+
+            self._logger.info("Trajectory's end point: %f, %f, %f", self._wp_end.x, self._wp_end.y, self._wp_end.z)
+
             if wp_set.is_empty:
                 self._logger.error('Waypoints violate workspace constraints, are you using world or world_ned as reference?')
                 return InitCircularTrajectoryResponse(False)
@@ -642,6 +752,15 @@ class DPControllerLocalPlanner(object):
                 self._logger.error('Error generating circular trajectory from waypoint set')
                 return InitHelicalTrajectoryResponse(False)
             wp_set = self._apply_workspace_constraints(wp_set)
+
+            wp = uuv_waypoints.Waypoint()
+            wp = wp_set.get_waypoint(wp_set.num_waypoints - 1)
+            self._wp_end.x = wp.x
+            self._wp_end.y = wp.y
+            self._wp_end.z = wp.z
+
+            self._logger.info("Trajectory's end point: %f, %f, %f", self._wp_end.x, self._wp_end.y, self._wp_end.z)
+
             if wp_set.is_empty:
                 self._logger.error('Waypoints violate workspace constraints, are you using world or world_ned as reference?')
                 return InitHelicalTrajectoryResponse(False)
@@ -715,6 +834,13 @@ class DPControllerLocalPlanner(object):
         wp_set = self._transform_waypoint_set(wp_set)
         wp_set = self._apply_workspace_constraints(wp_set)
 
+        wp = uuv_waypoints.Waypoint()
+        wp = wp_set.get_waypoint(wp_set.num_waypoints - 1)
+        self._wp_end.x = wp.x
+        self._wp_end.y = wp.y
+        self._wp_end.z = wp.z
+        self._logger.info("Trajectory's end point: %f, %f, %f", self._wp_end.x, self._wp_end.y, self._wp_end.z)
+
         if self._traj_interpolator.set_waypoints(wp_set, self.get_vehicle_rot()):
             self._station_keeping_center = None
             self._traj_interpolator.set_start_time((t.to_sec() if not request.start_now else rospy.get_time()))
@@ -763,7 +889,14 @@ class DPControllerLocalPlanner(object):
             inertial_frame_id=self.inertial_frame_id)
         wp_set.add_waypoint(init_wp)
         wp_set.add_waypoint_from_msg(request.waypoint)
-        wp_set = self._transform_waypoint_set(wp_set)
+
+        wp = uuv_waypoints.Waypoint()
+        wp = wp_set.get_waypoint(wp_set.num_waypoints - 1)
+        self._wp_end.x = wp.x
+        self._wp_end.y = wp.y
+        self._wp_end.z = wp.z
+        self._logger.info("Trajectory's end point: %f, %f, %f", self._wp_end.x, self._wp_end.y, self._wp_end.z)
+
         self._traj_interpolator.set_interp_method(request.interpolator)
         if not self._traj_interpolator.set_waypoints(wp_set, self.get_vehicle_rot()):
             self._logger.error('Error while setting waypoints')
@@ -824,6 +957,13 @@ class DPControllerLocalPlanner(object):
             max_forward_speed=request.max_forward_speed,
             inertial_frame_id=self.inertial_frame_id)
         wp_set.add_waypoint(wp)
+
+        wp = uuv_waypoints.Waypoint()
+        wp = wp_set.get_waypoint(wp_set.num_waypoints - 1)
+        self._wp_end.x = wp.x
+        self._wp_end.y = wp.y
+        self._wp_end.z = wp.z
+        self._logger.info("Trajectory's end point: %f, %f, %f", self._wp_end.x, self._wp_end.y, self._wp_end.z)
 
         self._traj_interpolator.set_interp_method(request.interpolator)
         if not self._traj_interpolator.set_waypoints(wp_set, self.get_vehicle_rot()):
@@ -916,7 +1056,7 @@ class DPControllerLocalPlanner(object):
                 self._traj_running = True
                 self._logger.info(rospy.get_namespace() + ' - Trajectory running')
 
-            if self._traj_running and (self._traj_interpolator.has_finished() or self._station_keeping_on):
+            if self._traj_running and (self.has_finished() or self._station_keeping_on):
                 # Trajectory ended, start station keeping mode
                 self._logger.info(rospy.get_namespace() + ' - Trajectory completed!')
                 if self._this_ref_pnt is None:

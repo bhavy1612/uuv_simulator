@@ -11,10 +11,10 @@ if __name__ == '__main__':
 
     rospy.init_node('waypoint_server')
 
-    wp1 = uuv_waypoints.Waypoint(0, 0, -1.5, 0.3, inertial_frame_id='world', use_fixed_heading=True)
-    wp2 = uuv_waypoints.Waypoint(2, 0, -2.5, 0.3, inertial_frame_id='world', use_fixed_heading=True)
-    wp3 = uuv_waypoints.Waypoint(3, 2, -2.5, 0.5, inertial_frame_id='world', use_fixed_heading=True)
-    wp4 = uuv_waypoints.Waypoint(3, 3, -2, 0.5, inertial_frame_id='world', use_fixed_heading=True)
+    wp1 = uuv_waypoints.Waypoint(1.5, 1.5, -2.5, 0.15, inertial_frame_id='world')
+    wp2 = uuv_waypoints.Waypoint(3, 0, -2.5, 0.15, inertial_frame_id='world')
+    wp3 = uuv_waypoints.Waypoint(1.5, -1.5, -2.5, 0.15, inertial_frame_id='world')
+    wp4 = uuv_waypoints.Waypoint(0, -0.5, -2.5, 0.15, inertial_frame_id='world')
 
     wp1_msg = WaypointMsg()
     wp1_msg = wp1.to_message()
@@ -28,11 +28,12 @@ if __name__ == '__main__':
     print 'waiting for circular server'
     rospy.wait_for_service('anahita/start_circular_trajectory')
 
-    wp_set = [wp1_msg, wp2_msg, wp3_msg]
+    wp_set = [wp1_msg, wp2_msg, wp3_msg, wp4_msg]
 
     try:
         init_waypoint_set = rospy.ServiceProxy('anahita/start_waypoint_list', InitWaypointSet)
         init_circular_trajectory = rospy.ServiceProxy('anahita/start_circular_trajectory', InitCircularTrajectory)
+        trajectory_complete = rospy.ServiceProxy('anahita/trajectory_complete', TrajectoryComplete)
         
         start_time = Time()
         start_time.data.secs = rospy.get_rostime().to_sec()
@@ -54,12 +55,12 @@ if __name__ == '__main__':
                                         n_points=10,
                                         max_forward_speed = 1,
                                         heading_offset = 0.5,
-                                        duration=100)
+                                        duration=200)
 
         # resp = init_waypoint_set(start_time=start_time,
         #                         start_now=True,
         #                         waypoints=wp_set,
-        #                         max_forward_speed=0.5,
+        #                         max_forward_speed=0.1,
         #                         heading_offset=0.5,
         #                         interpolator=interpolator)
 
@@ -67,5 +68,13 @@ if __name__ == '__main__':
             print "waypoints successfully added"
         else:
             print "waypoints addition failed"
+
+        trajectory_complete_resp = trajectory_complete(time_out=200)
+
+        if trajectory_complete_resp.success:
+            print 'trajectory completed successfully'
+        else:
+            print 'failed at traversing the path'
+        
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e

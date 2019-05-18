@@ -77,6 +77,8 @@ class PathGenerator(object):
 
     @property
     def max_time(self):
+        # print 'duration'
+        # print self._duration
         return self._start_time + self._duration
 
     @property
@@ -86,6 +88,8 @@ class PathGenerator(object):
     @duration.setter
     def duration(self, t):
         assert t > 0, 'Duration must be a positive value'
+        print 'Trajectory duration set to:'
+        print t
         self._duration = t
 
     @property
@@ -206,6 +210,8 @@ class PathGenerator(object):
 
     def is_finished(self, t):
         if self._termination_by_time:
+            # print 'max_time'
+            # print self.max_time
             return t > self.max_time
         else:
             return True
