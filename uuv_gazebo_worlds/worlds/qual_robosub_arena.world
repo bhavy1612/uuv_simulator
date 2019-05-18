@@ -65,7 +65,7 @@
       </attenuation>
       <direction>0.5 0.1 -0.9</direction>
     </light>
-
+    
     <!-- Bounding box with sea surface -->
     <include>
       <uri>model://ocean_box</uri>
@@ -85,6 +85,11 @@
     <include>
       <uri>model://PathMarker</uri>
       <pose>0 0 -2.5 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://vampire_stake</uri>
+      <pose>-10 -10 0 0 0 -3.14</pose>
     </include>
 
     <plugin name="underwater_current_plugin" filename="libuuv_underwater_current_ros_plugin.so">
