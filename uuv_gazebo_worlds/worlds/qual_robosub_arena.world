@@ -51,7 +51,6 @@
             <longitude_deg>3.515625</longitude_deg>
         </spherical_coordinates>
 
-<<<<<<< HEAD
         <!-- Global light source -->
         <light name='sun' type='directional'>
             <cast_shadows>1</cast_shadows>
@@ -72,28 +71,6 @@
             <uri>model://ocean_box</uri>
             <pose>0 0 0 0 0 0</pose>
         </include>
-=======
-    <!-- Global light source -->
-    <light name='sun' type='directional'>
-      <cast_shadows>1</cast_shadows>
-      <pose frame=''>0 0 10 0 0 0</pose>
-      <diffuse>0.8 0.8 0.8 1</diffuse>
-      <specular>0.2 0.2 0.2 1</specular>
-      <attenuation>
-        <range>1000</range>
-        <constant>0.9</constant>
-        <linear>0.01</linear>
-        <quadratic>0.001</quadratic>
-      </attenuation>
-      <direction>0.5 0.1 -0.9</direction>
-    </light>
-    
-    <!-- Bounding box with sea surface -->
-    <include>
-      <uri>model://ocean_box</uri>
-      <pose>0 0 0 0 0 0</pose>
-    </include>
->>>>>>> 6301b2c5844d10bb5005a654fcb0d27032a576f4
 
         <include>
             <uri>model://qual_gate</uri>
@@ -104,6 +81,11 @@
             <uri>model://qual_marker</uri>
             <pose>13 0 -2.963422 0 0 0</pose>
         </include>
+
+        <!-- <include>
+        <uri>model://vampire_stake</uri>
+        <pose>-10 -10 0 0 0 -3.14</pose>
+        </include> -->
 
         <plugin name="underwater_current_plugin" filename="libuuv_underwater_current_ros_plugin.so">
             <namespace>hydrodynamics</namespace>
@@ -117,7 +99,6 @@
                     <noiseAmp>0.0</noiseAmp>
                 </velocity>
 
-<<<<<<< HEAD
                 <horizontal_angle>
                     <mean>0</mean>
                     <min>-3.141592653589793238</min>
@@ -125,24 +106,6 @@
                     <mu>0.0</mu>
                     <noiseAmp>0.0</noiseAmp>
                 </horizontal_angle>
-=======
-    <include>
-      <uri>model://vampire_stake</uri>
-      <pose>-10 -10 0 0 0 -3.14</pose>
-    </include>
-
-    <plugin name="underwater_current_plugin" filename="libuuv_underwater_current_ros_plugin.so">
-      <namespace>hydrodynamics</namespace>
-      <constant_current>
-        <topic>current_velocity</topic>
-        <velocity>
-          <mean>0</mean>
-          <min>0</min>
-          <max>5</max>
-          <mu>0.0</mu>
-          <noiseAmp>0.0</noiseAmp>
-        </velocity>
->>>>>>> 6301b2c5844d10bb5005a654fcb0d27032a576f4
 
                 <vertical_angle>
                     <mean>0</mean>
