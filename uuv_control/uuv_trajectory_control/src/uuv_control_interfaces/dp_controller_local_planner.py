@@ -178,7 +178,7 @@ class DPControllerLocalPlanner(object):
         self._waypoints_msg = None
         self._trajectory_msg = None
         self._wp_end = Point()
-        self._curr_wp = Pose()
+        self._curr_pose = Pose()
         self._end_pose = Pose()
 
         # Subscribing topic for the trajectory given to the controller
@@ -466,12 +466,12 @@ class DPControllerLocalPlanner(object):
 
     def _odomCB(self, msg):
         """Odometry topic subscriber callback function."""
-        self._curr_wp = msg.pose.pose
+        self._curr_pose = msg.pose.pose
 
     def calc_dist(self):
-        dist = (self._curr_wp.position.x - self._wp_end.x)*(self._curr_wp.position.x - self._wp_end.x) + \
-               (self._curr_wp.position.y - self._wp_end.y)*(self._curr_wp.position.y - self._wp_end.y) + \
-               (self._curr_wp.position.z - self._wp_end.z)*(self._curr_wp.position.z - self._wp_end.z)
+        dist = (self._curr_pose.position.x - self._wp_end.x)*(self._curr_pose.position.x - self._wp_end.x) + \
+               (self._curr_pose.position.y - self._wp_end.y)*(self._curr_pose.position.y - self._wp_end.y) + \
+               (self._curr_pose.position.z - self._wp_end.z)*(self._curr_pose.position.z - self._wp_end.z)
         return dist
 
     def has_finished(self):
@@ -549,26 +549,29 @@ class DPControllerLocalPlanner(object):
         return GoToPoseResponse(True)
 
     def has_reached_pose(self):
-        dist = (self._curr_wp.position.x - self._end_pose.position.x)*(self._curr_wp.position.x - self._end_pose.position.x) + \
-               (self._curr_wp.position.y - self._end_pose.position.y)*(self._curr_wp.position.y - self._end_pose.position.y) + \
-               (self._curr_wp.position.z - self._end_pose.position.z)*(self._curr_wp.position.z - self._end_pose.position.z) + \
-               (self._curr_wp.orientation.x - self._end_pose.orientation.x)*(self._curr_wp.orientation.x - self._end_pose.orientation.x) + \
-               (self._curr_wp.orientation.y - self._end_pose.orientation.y)*(self._curr_wp.orientation.y - self._end_pose.orientation.y) + \
-               (self._curr_wp.orientation.z - self._end_pose.orientation.z)*(self._curr_wp.orientation.z - self._end_pose.orientation.z) + \
-               (self._curr_wp.orientation.w - self._end_pose.orientation.w)*(self._curr_wp.orientation.w - self._end_pose.orientation.w)
+        dist = (self._curr_pose.position.x - self._end_pose.position.x)*(self._curr_pose.position.x - self._end_pose.position.x) + \
+               (self._curr_pose.position.y - self._end_pose.position.y)*(self._curr_pose.position.y - self._end_pose.position.y) + \
+               (self._curr_pose.position.z - self._end_pose.position.z)*(self._curr_pose.position.z - self._end_pose.position.z) + \
+               (self._curr_pose.orientation.x - self._end_pose.orientation.x)*(self._curr_pose.orientation.x - self._end_pose.orientation.x) + \
+               (self._curr_pose.orientation.y - self._end_pose.orientation.y)*(self._curr_pose.orientation.y - self._end_pose.orientation.y) + \
+               (abs(self._curr_pose.orientation.z) - abs(self._end_pose.orientation.z))*(abs(self._curr_pose.orientation.z) - abs(self._end_pose.orientation.z)) + \
+               (self._curr_pose.orientation.w - self._end_pose.orientation.w)*(self._curr_pose.orientation.w - self._end_pose.orientation.w)
+        # print "dist"
+        # print dist
         return dist < 0.005
 
     def _is_pose_reached(self, request):
         then = rospy.get_time()
+        # rospy.loginfo('inside the request cb')
 
         while not self.has_reached_pose():
             now = rospy.get_time()
 
             if (now - then > request.time_out):
-               PoseReach(False) 
+               PoseReachResponse(False) 
             continue
 
-        return PoseReach(True)
+        return PoseReachResponse(True)
     
     def is_trajectory_complete(self, request):
 
