@@ -556,35 +556,61 @@ class DPControllerLocalPlanner(object):
                (self._curr_pose.orientation.y - self._end_pose.orientation.y)*(self._curr_pose.orientation.y - self._end_pose.orientation.y) + \
                (abs(self._curr_pose.orientation.z) - abs(self._end_pose.orientation.z))*(abs(self._curr_pose.orientation.z) - abs(self._end_pose.orientation.z)) + \
                (self._curr_pose.orientation.w - self._end_pose.orientation.w)*(self._curr_pose.orientation.w - self._end_pose.orientation.w)
-        # print "dist"
-        # print dist
         return dist < 0.005
 
     def _is_pose_reached(self, request):
-        then = rospy.get_time()
-        # rospy.loginfo('inside the request cb')
 
-        while not self.has_reached_pose():
+        start = rospy.get_time()
+        count = 0
+
+        while not rospy.is_shutdown():
+            if (self.has_reached_pose()):
+                if (not count):
+                    then = rospy.get_time()
+                count = count + 1
             now = rospy.get_time()
+            diff = now - then
 
-            if (now - then > request.time_out):
-               PoseReachResponse(False) 
-            continue
+            if (diff <= 3):
+                if (count >= 50):
+                    rospy.loginfo ("Pose Reached!!")
+                    self.set_station_keeping(True)
+                    self.set_automatic_mode(False)
+                    return PoseReachResponse(True)
+                else:
+                    count = 0     
 
-        return PoseReachResponse(True)
+            if (now - start > request.time_out):
+               return PoseReachResponse(False)
+
+            rospy.sleep(0.05)
     
     def is_trajectory_complete(self, request):
 
-        then = rospy.get_time()
+        start = rospy.get_time()
+        count = 0
 
-        while not self.has_finished():
+        while not rospy.is_shutdown():
+            if (self.has_finished()):
+                if (not count):
+                    then = rospy.get_time()
+                count = count + 1
             now = rospy.get_time()
+            diff = now - then
 
-            if (now - then > request.time_out):
-               TrajectoryCompleteResponse(False) 
-            continue
+            if (diff <= 3):
+                if (count >= 50):
+                    rospy.loginfo ("Trajectory Completed!!")
+                    self.set_station_keeping(True)
+                    self.set_automatic_mode(False)
+                    return TrajectoryCompleteResponse(True)
+                else:
+                    count = 0     
 
-        return TrajectoryCompleteResponse(True)
+            if (now - start > request.time_out):
+               return TrajectoryCompleteResponse(False)
+
+            rospy.sleep(0.05)
 
     def start_waypoint_list(self, request):
         """
