@@ -42,6 +42,7 @@ class TrajectoryGenerator(object):
     @property
     def points(self):
         if self._wp_interp_on:
+            # print 'betichod'
             return self._wp_interp.get_samples(0.001)
         else:
             return self._points
@@ -96,6 +97,7 @@ class TrajectoryGenerator(object):
 
         # try:
         if self.points is None:
+            # print 'madharchod'
             return None
         msg = uuv_control_msgs.Trajectory()
         msg.header.stamp = rospy.Time.now()

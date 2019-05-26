@@ -21,6 +21,7 @@ add_message_files(
    InitWaypointsFromFile.srv
    GetWaypoints.srv
    GoTo.srv
+   GoToPose.srv
    GoToIncremental.srv
    Hold.srv
    IsRunningTrajectory.srv
@@ -36,6 +37,8 @@ add_message_files(
    SetMBSMControllerParams.srv
    GetMBSMControllerParams.srv
    ResetController.srv
+   TrajectoryComplete.srv
+   PoseReach.srv
  )
 
 generate_messages(
