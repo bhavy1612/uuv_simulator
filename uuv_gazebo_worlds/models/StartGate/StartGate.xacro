@@ -5,7 +5,7 @@
 <!-- Loading file with sensor macros -->
 <xacro:include filename="$(find uuv_sensor_ros_plugins)/urdf/sensor_snippets.xacro"/>
 
-<xacro:macro name="startgate_base" params="namespace">
+<xacro:macro name="startgate_base">
 
   <link
     name="${namespace}/base_link">
