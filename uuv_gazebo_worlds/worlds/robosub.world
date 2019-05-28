@@ -72,9 +72,15 @@
             <pose>0 0 0 0 0 0</pose>
         </include>
 
-        <include>
+        <!-- <include>
             <uri>model://vampire_stake</uri>
             <pose>3 0 -1.400003 0 0 -1.575866</pose>
+        </include> -->
+
+        <include>
+            <uri>model://pinger</uri>
+            <pose>21.096525 8.886061 -2.450000 0 0 0</pose>
+            <static>true</static>
         </include>
 
         <plugin name="underwater_current_plugin" filename="libuuv_underwater_current_ros_plugin.so">

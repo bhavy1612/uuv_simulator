@@ -1,47 +1,35 @@
   <?xml version='1.0'?>
   <sdf version="1.6">
   <model name="jiangshi">
-    <pose>0 0 1.5 0 0 0</pose>
+    <pose>0 0 0.25 1.57 0 -1.57</pose>
     <link name="base_link">
-      <inertial>
-        <origin
-          xyz="0.3048 -0.00635000000000004 -0.6096"
-          rpy="0 0 0" />
-        <mass
-          value="9.4389" />
-        <inertia
-          ixx="1.16933625916539"
-          ixy="-1.14739925673508E-19"
-          ixz="-1.14181458044831E-16"
-          iyy="1.46151173978358"
-          iyz="-7.0481744974311E-17"
-          izz="0.292429215295238" />
-      </inertial>
-      <visual name="visual">
-        <origin
-          xyz="0 0 0"
-          rpy="1.5707963267949 0 0" />
-        <geometry>
-          <mesh>
-            <uri>model://jiangshi/jiangshi.dae</uri>
-          </mesh>
-        </geometry>
-        <material
-          name="">
-          <color
-            rgba="0.79216 0.81961 0.93333 1" />
-        </material>
-      </visual>
-      <collision name="collision">
-        <origin
-          xyz="0 0 0"
-          rpy="1.5707963267949 0 0" />
-        <geometry>
-          <mesh>
-            <uri>model://jiangshi/jiangshi.dae</uri>
-          </mesh>
-        </geometry>
-      </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1" />
+            <inertia ixx="1.0E-5"
+                ixy="0"
+                ixz="0"
+                iyy="1.0E-5"
+                iyz="0"
+                izz="1.0E-5" />
+        </inertial>
+        <visual name="visual">
+            <geometry>
+                <mesh>
+                    <uri>model://jiangshi/jiangshi.dae</uri>
+                </mesh>
+            </geometry>
+            <material name="">
+                <color rgba="0.79216 0.81961 0.93333 1" />
+            </material>
+        </visual>
+        <collision name="collision">
+            <geometry>
+                <mesh>
+                    <uri>model://jiangshi/jiangshi.dae</uri>
+                </mesh>
+            </geometry>
+        </collision>
     </link>
-  </model>
-  </sdf>
+</model>
+</sdf>
