@@ -109,6 +109,7 @@
 
         <include>
             <uri>model://Buoy_Akash</uri>
+            <pose>0 1.802326 -2.634566 0 0 0</pose>
         </include>
 
         <plugin name="underwater_current_plugin" filename="libuuv_underwater_current_ros_plugin.so">
