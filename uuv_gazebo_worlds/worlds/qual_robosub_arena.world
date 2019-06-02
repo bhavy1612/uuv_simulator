@@ -102,10 +102,16 @@
         <pose>-10 1 0 0 0 -3.14</pose>
         </include>
 
-         <include>
+         <!--include>
         <uri>model://StartGate</uri>
         <pose>-10 4 0 0 0 -3.14</pose>
-        </include>
+        </include-->
+
+	 <include>
+            <uri>model://grabber</uri>
+            <pose>0 0 0 0 0 0</pose>
+        </include>	
+
 
 
     <plugin name="underwater_current_plugin" filename="libuuv_underwater_current_ros_plugin.so">

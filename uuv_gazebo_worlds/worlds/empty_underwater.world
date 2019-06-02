@@ -91,6 +91,11 @@
         </vertical_angle>
       </constant_current>
     </plugin>
+ <include>
+            <uri>model://grabber</uri>
+            <pose>0 0 0 0 0 0</pose>
+        </include>
+
 
     <plugin name="sc_interface" filename="libuuv_sc_ros_interface_plugin.so"/>
 
