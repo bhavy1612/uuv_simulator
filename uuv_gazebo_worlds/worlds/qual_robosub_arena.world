@@ -72,35 +72,36 @@
             <pose>0 0 0 0 0 0</pose>
         </include>
 
-        <include>
+        <!-- <include>
             <uri>model://qual_gate</uri>
             <pose>3 3.141796 -3.195446 -1.571428 0 0</pose>
-        </include>
+        </include> -->
 
-        <include>
+        <!-- <include>
             <uri>model://qual_marker</uri>
             <pose>13 0 -2.963422 0 0 0</pose>
-        </include>
+        </include> -->
+
+        <!-- <include>
+            <uri>model://vampire_stake</uri>
+            <pose>-10 -10 0 0 0 -3.14</pose>
+        </include> -->
 
         <include>
-        <uri>model://vampire_stake</uri>
-        <pose>-10 -10 0 0 0 -3.14</pose>
+            <uri>model://jiangshi</uri>
+            <static>true</static>
         </include>
 
-        <include>
-        <uri>model://jiangshi</uri>
-        <pose>-10 10 0 0 0 -3.14</pose>
-        </include>
+        <!-- <include>
+            <uri>model://crucifix_platform</uri>
+            <pose>-10 1 0 0 0 -3.14</pose>
+        </include> -->
 
-        <include>
-        <uri>model://crucifix_platform</uri>
-        <pose>-10 1 0 0 0 -3.14</pose>
-        </include>
+        <!-- <include>
+            <uri>model://crucifix</uri>
+            <pose>-10 1 0 0 0 -3.14</pose>
+        </include> -->
 
-        <include>
-        <uri>model://crucifix</uri>
-        <pose>-10 1 0 0 0 -3.14</pose>
-        </include>
 
          <!--include>
         <uri>model://StartGate</uri>
