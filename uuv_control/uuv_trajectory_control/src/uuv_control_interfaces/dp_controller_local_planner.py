@@ -562,6 +562,7 @@ class DPControllerLocalPlanner(object):
 
         start = rospy.get_time()
         count = 0
+        then = rospy.get_time()
 
         while not rospy.is_shutdown():
             if (self.has_reached_pose()):
@@ -571,7 +572,7 @@ class DPControllerLocalPlanner(object):
             now = rospy.get_time()
             diff = now - then
 
-            if (diff <= 3):
+            if (diff >= 3):
                 if (count >= 50):
                     rospy.loginfo ("Pose Reached!!")
                     self.set_station_keeping(True)
@@ -589,7 +590,8 @@ class DPControllerLocalPlanner(object):
 
         start = rospy.get_time()
         count = 0
-
+        then = rospy.get_time()
+        
         while not rospy.is_shutdown():
             if (self.has_finished()):
                 if (not count):
@@ -598,7 +600,7 @@ class DPControllerLocalPlanner(object):
             now = rospy.get_time()
             diff = now - then
 
-            if (diff <= 3):
+            if (diff >= 3):
                 if (count >= 50):
                     rospy.loginfo ("Trajectory Completed!!")
                     self.set_station_keeping(True)
