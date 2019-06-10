@@ -52,9 +52,19 @@
     </spherical_coordinates>
 
     <!-- Global light source -->
-    <include>
-      <uri>model://sun</uri>
-    </include>
+    <light name='sun' type='directional'>
+        <cast_shadows>1</cast_shadows>
+        <pose frame=''>0 0 10 0 0 0</pose>
+        <diffuse>0.8 0.8 0.8 1</diffuse>
+        <specular>0.2 0.2 0.2 1</specular>
+        <attenuation>
+            <range>1000</range>
+            <constant>0.9</constant>
+            <linear>0.01</linear>
+            <quadratic>0.001</quadratic>
+        </attenuation>
+        <direction>0.5 0.1 -0.9</direction>
+    </light>
 
     <!-- Bounding box with sea surface -->
     <include>
@@ -91,11 +101,6 @@
         </vertical_angle>
       </constant_current>
     </plugin>
- <include>
-            <uri>model://grabber</uri>
-            <pose>0 0 0 0 0 0</pose>
-        </include>
-
 
     <plugin name="sc_interface" filename="libuuv_sc_ros_interface_plugin.so"/>
 
