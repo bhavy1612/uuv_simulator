@@ -108,7 +108,7 @@
         <pose>-10 4 0 0 0 -3.14</pose>
         </include-->
 
-	 <include>
+        <include>
             <uri>model://grabber</uri>
             <pose>0 0 0 0 0 0</pose>
         </include>	
@@ -117,7 +117,6 @@
         <include>
             <uri>model://Buoy_Akash</uri>
             <pose>0 1.802326 -2.0 0 0 0</pose>
-            <!-- <static>true</static> -->
         </include>
 
         <plugin name="underwater_current_plugin" filename="libuuv_underwater_current_ros_plugin.so">
