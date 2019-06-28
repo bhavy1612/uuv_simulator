@@ -206,6 +206,7 @@ class DPControllerLocalPlanner(object):
         self._smooth_approach_on = False
         # Time stamp for received trajectory
         self._stamp_trajectory_received = 0.0
+        self._station_keeping_ref = None
         # Dictionary of services
         self._services = dict()
         self._services['hold_vehicle'] = rospy.Service(
@@ -502,6 +503,7 @@ class DPControllerLocalPlanner(object):
     def start_station_keeping(self):
         if self._vehicle_pose is not None:
             self._this_ref_pnt = deepcopy(self._vehicle_pose)
+            self._station_keeping_ref = deepcopy(self._vehicle_pose)
             self._this_ref_pnt.vel = np.zeros(6)
             self._this_ref_pnt.acc = np.zeros(6)
             self.set_station_keeping(True)
@@ -1075,6 +1077,7 @@ class DPControllerLocalPlanner(object):
         """
 
         self._lock.acquire()
+        
         if not self._station_keeping_on and self._traj_running:
             if self._smooth_approach_on:
                 # Generate extra waypoint before the initial waypoint
@@ -1118,13 +1121,14 @@ class DPControllerLocalPlanner(object):
                 self._this_ref_pnt = self._calc_teleop_reference()
             else:
                 self._this_ref_pnt = deepcopy(self._vehicle_pose)
+                self._station_keeping_ref = deepcopy(self._vehicle_pose)
             # Set roll and pitch reference to zero
             yaw = self._this_ref_pnt.rot[2]
             self._this_ref_pnt.rot = [0, 0, yaw]
             self.set_automatic_mode(False)
         elif self._station_keeping_on:
-            if self._is_teleop_active:
-                self._this_ref_pnt = self._calc_teleop_reference()
+            # if self._is_teleop_active:
+            #     self._this_ref_pnt = self._calc_teleop_reference()
             self._max_time_pub.publish(Float64(0))
             #######################################################################
             if not self._thrusters_only and not self._is_teleop_active and rospy.get_time() - self._start_count_idle > self._timeout_idle_mode:
