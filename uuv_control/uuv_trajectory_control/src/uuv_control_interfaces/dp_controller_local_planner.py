@@ -518,6 +518,15 @@ class DPControllerLocalPlanner(object):
         self.start_station_keeping()
         return HoldResponse(True)
 
+    def cancel_request (self, request):
+        pass
+
+    def bottom_manoeuvre (self, request):
+        pass
+
+    def front_manoeuvre (self, request):
+        pass
+
     def go_to_pose(self, request):
         """
         Service callback function to achieve a certain pose
