@@ -42,6 +42,7 @@ add_message_files(
    CancelRequest.srv
    BottomSearch.srv
    FrontSearch.srv
+   StallVehicle.srv
  )
 
 generate_messages(
